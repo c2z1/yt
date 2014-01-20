@@ -6,23 +6,23 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".TaskListActivity" >
+    tools:context=".TaskDetailsActivity" >
 
-    <Button
-        android:id="@+id/newBtn"
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/newBtnLbl" />
+        android:text="@string/hello_world" />
 
-    <ListView
-        android:id="@+id/taskListView"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/newBtn"
-        android:layout_below="@+id/newBtn" >
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:ems="10" >
 
-    </ListView>
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

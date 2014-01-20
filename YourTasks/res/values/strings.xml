@@ -6,6 +6,6 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_task_list">Tasks</string>
     <string name="action_settings">Settings</string>
-    <string name="neu">+</string>
+    <string name="newBtnLbl">+</string>
 
 </resources>
