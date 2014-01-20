@@ -1,0 +1,194 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://esoteric-pen-466.appspot.com/_ah/api",
+  "name" : "taskendpoint",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://esoteric-pen-466.appspot.com/_ah/spi",
+    "deadline" : 10.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "ownerDomain" : "yourtasks.de",
+  "ownerName" : "yourtasks.de",
+  "methods" : {
+    "taskendpoint.insertTask" : {
+      "path" : "task",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.insertTask",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.removeTask" : {
+      "path" : "task/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.removeTask",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "taskendpoint.getTask" : {
+      "path" : "task/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.getTask",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.updateTask" : {
+      "path" : "task",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.updateTask",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.listTask" : {
+      "path" : "task",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.listTask",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Task" : {
+        "id" : "Task",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "prio" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "CollectionResponse_Task" : {
+        "id" : "CollectionResponse_Task",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Task"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "de.yourtasks.TaskEndpoint.insertTask" : {
+        "request" : {
+          "$ref" : "Task"
+        },
+        "response" : {
+          "$ref" : "Task"
+        }
+      },
+      "de.yourtasks.TaskEndpoint.removeTask" : {
+      },
+      "de.yourtasks.TaskEndpoint.getTask" : {
+        "response" : {
+          "$ref" : "Task"
+        }
+      },
+      "de.yourtasks.TaskEndpoint.updateTask" : {
+        "request" : {
+          "$ref" : "Task"
+        },
+        "response" : {
+          "$ref" : "Task"
+        }
+      },
+      "de.yourtasks.TaskEndpoint.listTask" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Task"
+        }
+      }
+    }
+  }
+}
