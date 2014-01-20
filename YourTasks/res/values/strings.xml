@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">YourTasks</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_task_list">Tasks</string>
+    <string name="action_settings">Settings</string>
+    <string name="neu">+</string>
+
+</resources>
