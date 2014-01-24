@@ -8,21 +8,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TaskListActivity" >
 
-    <Button
+    <ImageButton
         android:id="@+id/newBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/newBtnLbl" />
+        android:src="@android:drawable/ic_input_add" 
+        android:contentDescription="@string/btn_plus_description"/>
 
     <ListView
         android:id="@+id/taskListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/newBtn"
-        android:layout_below="@+id/newBtn" >
+        android:layout_below="@+id/newBtn" />
 
-    </ListView>
+    <ImageButton
+        android:id="@+id/btnRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/taskListView"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/newBtn"
+        android:src="@drawable/ic_menu_refresh" 
+        android:contentDescription="@string/btn_refresh_description"/>
 
 </RelativeLayout>

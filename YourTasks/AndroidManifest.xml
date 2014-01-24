@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -56,8 +56,12 @@
             android:name="de.yourtasks.RegisterActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name="de.yourtasks.TaskListActivity"
+            android:name="de.yourtasks.task.ui.TaskListActivity"
             android:label="@string/title_activity_task_list" >
+        </activity>
+        <activity
+            android:name="de.yourtasks.task.ui.TaskDetailsActivity"
+            android:label="@string/title_activity_task_details" >
         </activity>
     </application>
 

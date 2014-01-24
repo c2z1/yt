@@ -141,6 +141,9 @@
           },
           "prio" : {
             "type" : "integer"
+          },
+          "completed" : {
+            "type" : "boolean"
           }
         }
       },

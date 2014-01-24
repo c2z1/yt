@@ -2,10 +2,15 @@
 <resources>
 
     <string name="app_name">YourTasks</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_task_list">Tasks</string>
     <string name="action_settings">Settings</string>
-    <string name="newBtnLbl">+</string>
+    <string name="lbl_name">Name</string>
+    <string name="lbl_prio">Prio</string>
+    <string name="task_details_ok_description">OK</string>
+    <string name="title_activity_task_details">Taskdetails</string>
+    <string name="btn_plus_description">Neue Aufgabe anlegen</string>
+    <string name="btn_refresh_description">Neu laden</string>
+    <string name="btndel_description">Aufgabe löschen</string>
 
 </resources>

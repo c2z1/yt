@@ -10,6 +10,8 @@ public class Task {
 	private Long id;
 	private String name;
 	private Integer prio;
+	private Boolean completed;
+	
 	public Long getId() {
 		return id;
 	}
@@ -27,5 +29,11 @@ public class Task {
 	}
 	public void setPrio(Integer prio) {
 		this.prio = prio;
+	}
+	public Boolean getCompleted() {
+		return completed;
+	}
+	public void setCompleted(Boolean completed) {
+		this.completed = completed;
 	}
 }

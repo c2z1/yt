@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/lkcQ0CXS8idQNip4gxNFwAmageo\"",
+ "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/bLzmtn3CJL0hNh9vMfdf415cNl4\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -92,6 +92,9 @@
    "id": "Task",
    "type": "object",
    "properties": {
+    "completed": {
+     "type": "boolean"
+    },
     "id": {
      "type": "string",
      "format": "int64"

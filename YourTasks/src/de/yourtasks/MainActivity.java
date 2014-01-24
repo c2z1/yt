@@ -1,8 +1,9 @@
 package de.yourtasks;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import de.yourtasks.task.ui.TaskListActivity;
 
 /**
  * The Main Activity.
@@ -19,12 +20,11 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		// Start up RegisterActivity right away
-		Intent intent = new Intent(this, RegisterActivity.class);
+		
+//		Intent intent = new Intent(this, RegisterActivity.class);
+		Intent intent = new Intent(this, TaskListActivity.class);
 		startActivity(intent);
-		// Since this is just a wrapper to start the main activity,
-		// finish it after launching RegisterActivity
+
 		finish();
 	}
 }
