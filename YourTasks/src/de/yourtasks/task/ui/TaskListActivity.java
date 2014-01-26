@@ -122,14 +122,20 @@ public class TaskListActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	        case R.id.newBtn:
+	        case R.id.action_new:
 	        	startDetailsView(null);
 	            return true;
-	        case R.id.btnRefresh:
+	        case R.id.action_refresh:
 	        	TaskService.getService().loadTasks();
 	            return true;
+	        case R.id.action_projects:
+	        	openProjectsActivity();
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+
+	private void openProjectsActivity() {
+		
 	}
 }

@@ -4,6 +4,7 @@
     <string name="app_name">YourTasks</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_task_list">Aufgabenliste</string>
+    <string name="action_projects">Projekliste</string>
     <string name="action_settings">Settings</string>
     <string name="lbl_name">Name</string>
     <string name="lbl_prio">Prio</string>
