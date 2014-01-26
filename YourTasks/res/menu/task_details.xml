@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/task_details_ok"
+          android:icon="@drawable/ic_cab_done_holo_light"
+          android:showAsAction="ifRoom" 
+          android:title="@string/ok"
+          />
+    <item android:id="@+id/btnDel"
+          android:icon="@android:drawable/ic_delete"
+          android:showAsAction="ifRoom"
+          android:title="@string/delete"
+          />
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_settings"
+          android:title="@string/action_settings"
+          android:showAsAction="never" />
+
+</menu>

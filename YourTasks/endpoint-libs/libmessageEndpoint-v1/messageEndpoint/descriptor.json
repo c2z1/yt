@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/messageEndpoint/v1/20140124184036/java/1.16.0-rc/yourtasks.de-messageEndpoint-v1-20140124184036-java-1.16.0-rc-sources.jar", 
-      "path": "yourtasks.de-messageEndpoint-v1-20140124184036-java-1.16.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/messageEndpoint/v1/20140126203702/java/1.16.0-rc/yourtasks.de-messageEndpoint-v1-20140126203702-java-1.16.0-rc-sources.jar", 
+      "path": "yourtasks.de-messageEndpoint-v1-20140126203702-java-1.16.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2014-01-24 18:40"
+      "timestamp": "2014-01-26 20:37"
     }, 
     {
-      "path": "yourtasks.de-messageEndpoint-v1-20140124184036-java-1.16.0-rc.jar.properties", 
+      "path": "yourtasks.de-messageEndpoint-v1-20140126203702-java-1.16.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -701,5 +701,5 @@
   "version": "v1", 
   "language_version": "1.16.0-rc", 
   "id": "messageEndpoint:v1", 
-  "revision": 20140124184036
+  "revision": 20140126203702
 }

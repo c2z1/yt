@@ -117,7 +117,7 @@ public class TaskService {
 						throw new RuntimeException(e);
 					}
 				}
-			};
+			}.execute();
 		}
 		taskList.remove(t);
 		fireDataChanged();
@@ -135,7 +135,7 @@ public class TaskService {
 					throw new RuntimeException(e);
 				}
 			}
-		};
+		}.execute();
 	}
 
 	public Task createTask() {

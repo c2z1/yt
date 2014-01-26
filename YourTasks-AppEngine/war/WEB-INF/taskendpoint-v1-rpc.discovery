@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/bLzmtn3CJL0hNh9vMfdf415cNl4\"",
+ "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/BWM8suDfovm_tK6s7HKm5wLFLtM\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -91,7 +91,8 @@
    "type": "object",
    "properties": {
     "completed": {
-     "type": "boolean"
+     "type": "string",
+     "format": "date-time"
     },
     "id": {
      "type": "string",

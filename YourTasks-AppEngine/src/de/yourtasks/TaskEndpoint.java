@@ -40,7 +40,7 @@ public class TaskEndpoint {
 
 		try {
 			mgr = getEntityManager();
-			Query query = mgr.createQuery("select from Task as Task");
+			Query query = mgr.createQuery("select t from Task t order by t.prio");
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				query.setHint(JPACursorHelper.CURSOR_HINT, cursor);

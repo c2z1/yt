@@ -5,7 +5,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>de.yourtasks.DeviceInfoEndpoint,de.yourtasks.MessageEndpoint,de.yourtasks.TaskEndpoint</param-value>
+   <param-value>de.yourtasks.DeviceInfoEndpoint,de.yourtasks.MessageEndpoint,de.yourtasks.ProjectEndpoint,de.yourtasks.TaskEndpoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>

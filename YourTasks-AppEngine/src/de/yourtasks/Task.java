@@ -1,5 +1,7 @@
 package de.yourtasks;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,7 +12,7 @@ public class Task {
 	private Long id;
 	private String name;
 	private Integer prio;
-	private Boolean completed;
+	private Date completed;
 	
 	public Long getId() {
 		return id;
@@ -30,10 +32,10 @@ public class Task {
 	public void setPrio(Integer prio) {
 		this.prio = prio;
 	}
-	public Boolean getCompleted() {
+	public Date getCompleted() {
 		return completed;
 	}
-	public void setCompleted(Boolean completed) {
+	public void setCompleted(Date completed) {
 		this.completed = completed;
 	}
 }

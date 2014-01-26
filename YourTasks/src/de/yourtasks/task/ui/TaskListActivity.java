@@ -1,12 +1,18 @@
 package de.yourtasks.task.ui;
 
+import java.util.Date;
+
+import com.google.api.client.util.DateTime;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -26,27 +32,15 @@ public class TaskListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
 		
+		getActionBar().show();
+
+		
 		TaskService.getService().loadTasks();
 		
 		initListView();
-		
-		findViewById(R.id.newBtn).setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					startDetailsView(null);
-				}
-			});
-		
-		findViewById(R.id.btnRefresh).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				TaskService.getService().loadTasks();
-			}
-		});
 	}
 	
 	private void initListView() {
-
 		final ArrayAdapter<Task> adapter = 
 				new ArrayAdapter<Task>(getApplicationContext(), R.layout.btn_list_item, 
 						TaskService.getService().getTasks()) {
@@ -72,8 +66,9 @@ public class TaskListActivity extends Activity {
 						});
 						
 						if (item != null) {
-							int color = item.getPrio() != null && item.getPrio() < 3 ? android.R.color.holo_red_dark
-											: android.R.color.black;
+							int color = item.getPrio() == null || item.getPrio() == 3 ? android.R.color.holo_orange_dark
+									: item.getPrio() < 3 ? android.R.color.holo_red_dark
+											: android.R.color.holo_green_dark;
 							
 							textView.setTextColor(Resources.getSystem().getColor(color));
 						}
@@ -86,12 +81,12 @@ public class TaskListActivity extends Activity {
 							@Override
 							public void onClick(View v) {
 								boolean checked = ((CheckBox) v).isChecked();
-								item.setCompleted(checked);
+								item.setCompleted(checked ? new DateTime(new Date()) : null);
 								notifyDataSetChanged();
 							}
 						});
 						
-						if (Boolean.TRUE.equals(item.getCompleted())) {
+						if (item.getCompleted() != null) {
 							rowView.setAlpha(0.3f);
 						} else {
 							rowView.setAlpha(1.0f);
@@ -104,6 +99,7 @@ public class TaskListActivity extends Activity {
 		TaskService.getService().addDataChangeListener(new DataChangeListener<Task>() {
 			@Override
 			public void dataChanged() {
+				Log.i("TaskListActivity", "adapter.notifyDataSetChanged() " + TaskService.getService().getTasks().size());
 				adapter.notifyDataSetChanged();
 			}
 		});
@@ -120,6 +116,20 @@ public class TaskListActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.task_list, menu);
-		return true;
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.newBtn:
+	        	startDetailsView(null);
+	            return true;
+	        case R.id.btnRefresh:
+	        	TaskService.getService().loadTasks();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 }
