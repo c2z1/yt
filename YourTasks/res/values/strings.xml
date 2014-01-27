@@ -16,8 +16,12 @@
     <string name="refresh">Aktualisieren</string>
     <string name="delete">Löschen</string>
     <string name="task_remove_message">Soll die Aufgabe wirklich unwiederbringlich gelöscht werden?</string>
+    <string name="project_remove_message">Soll das Projekt wirklich unwiederbringlich gelöscht werden?</string>
     <string name="yes">Ja</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="title_activity_project_list">ProjectListActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_project_details">Projektdetails</string>
 
 </resources>

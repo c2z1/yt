@@ -1,4 +1,4 @@
-package de.yourtasks.task.ui;
+package de.yourtasks.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,7 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import de.yourtasks.R;
-import de.yourtasks.task.TaskService;
+import de.yourtasks.model.ProjectService;
+import de.yourtasks.model.TaskService;
 import de.yourtasks.taskendpoint.model.Task;
 import de.yourtasks.utils.ui.UIService;
 
@@ -18,39 +19,28 @@ public class TaskDetailsActivity extends Activity {
 	
 	private Task task;
 
+	private TaskService taskService;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_details);
 
-		initTask();
+		Long id = getIntent().getLongExtra(TaskService.TASK_ID_PARAM, -1);
+		Long projectId = getIntent().getLongExtra(ProjectService.PROJECT_ID_PARAM, -1);
+		
+		taskService = TaskService.getService(projectId);
+		
+		task = taskService.getTask(id);
+		
+		if (task == null) {
+			task = taskService.createTask();
+		}
 		
 		UIService.bind((EditText) findViewById(R.id.editName), task, TaskService.NAME);
 		UIService.bind((EditText) findViewById(R.id.editPrio), task, TaskService.PRIO);
-		
-//		findViewById(R.id.task_details_ok).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				ok();
-//			}
-//		});
-//		findViewById(R.id.btnDel).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				TaskService.getService().removeTask(task);
-//				finish();
-//			}
-//		});
 	}
 
-	private void initTask() {
-		Long id = getIntent().getLongExtra(TaskService.TASK_ID_PARAM, -1);
-		task = TaskService.getService().getTask(id);
-		
-		if (task == null) {
-			task = TaskService.getService().createTask();
-		}
-	}
 	
 	@Override
 	public void onBackPressed() {
@@ -58,7 +48,7 @@ public class TaskDetailsActivity extends Activity {
 	}
 
 	private void ok() {
-		TaskService.getService().saveTask(task);
+		taskService.saveTask(task);
 		finish();
 	}
 	
@@ -94,7 +84,7 @@ public class TaskDetailsActivity extends Activity {
 	    })
 	    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 	         public void onClick(DialogInterface dialog, int whichButton) {
-	        	 TaskService.getService().removeTask(task);
+	        	 taskService.removeTask(task);
 	        	 finish();
 	         }
 	    }).show();

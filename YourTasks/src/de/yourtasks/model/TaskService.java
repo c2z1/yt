@@ -1,10 +1,11 @@
-package de.yourtasks.task;
+package de.yourtasks.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,8 +14,10 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 
 import de.yourtasks.taskendpoint.Taskendpoint;
+import de.yourtasks.taskendpoint.Taskendpoint.ListTask;
 import de.yourtasks.taskendpoint.model.Task;
 import de.yourtasks.utils.DataChangeListener;
+import de.yourtasks.utils.IdCreator;
 
 public class TaskService {
 	// {Line}
@@ -22,19 +25,23 @@ public class TaskService {
 	
 	public static String TASK_ID_PARAM = "taskId";
 	
-	private static TaskService instance;
+	private static Map<Long, TaskService> serviceMap = new LinkedHashMap<Long, TaskService>();
 	
 	private List<Task> createdTasks = Collections.synchronizedList(new ArrayList<Task>());
 	private List<Task> taskList = Collections.synchronizedList(new ArrayList<Task>());
 	
-	private boolean local = false;
+	private long projectId;
 	
-	protected TaskService() {
+	protected TaskService(long projectId) {
+		this.projectId = projectId;
 	}
 	
-	public static synchronized TaskService getService() {
+	public static synchronized TaskService getService(long projectId) {
+		TaskService instance = serviceMap.get(projectId);
 		if (instance == null) {
-			instance  = new TaskService();
+			instance  = new TaskService(projectId);
+			serviceMap.put(projectId, instance);
+			instance.loadTasks();
 		}
 		return instance;
 	}
@@ -49,9 +56,11 @@ public class TaskService {
 		new AsyncTask<Void, Void, List<Task>>() {
 			@Override
 			protected List<Task> doInBackground(Void... params) {
-				if (!local) {
+				if (!ProjectService.local) {
 					try {
-						return getEndpoint().listTask().execute().getItems();
+						ListTask lt = getEndpoint().listTask();
+						lt.setProjectId(null);
+						return lt.execute().getItems();
 					} catch (IOException e) {
 						Log.e("TaskListActivity", "Error during loading tasks", e);
 						e.printStackTrace();
@@ -68,15 +77,19 @@ public class TaskService {
 				taskList.clear();
 				taskList.addAll(result);
 				fireDataChanged();
+				
+				for (Task task : result) {
+					
+				}
 			}
 		}.execute();
 	}
 	
 	private List<Task> createDummies() {
 		ArrayList<Task> l = new ArrayList<Task>();
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 5; i++) {
 			Task t = createTask();
-			t.setName("Line " + i);
+			t.setName("Task " + i + "  " + projectId);
 			l.add(t);
 		}
 		return l;
@@ -105,7 +118,7 @@ public class TaskService {
 	}
 	
 	public void removeTask(final Task t) {
-		if (!local) {
+		if (!ProjectService.local) {
 			new AsyncTask<Void, Void, Void>() {
 				@Override
 				protected Void doInBackground(Void... params) {
@@ -139,17 +152,17 @@ public class TaskService {
 	}
 
 	public Task createTask() {
-		Long id = createId();
 		Task t = new Task();
 		t.setPrio(3);
-		t.setId(id);
+		t.setId(IdCreator.createId());
+		t.setProjectId(projectId);
 		taskList.add(t);
 		createdTasks.add(t);
 		return t;
 	}
 
 	public void saveTask(Task task) {
-		if (!local) {
+		if (!ProjectService.local) {
 			if (createdTasks.remove(task)) {
 				insertTask(task);
 			} else {
@@ -159,22 +172,14 @@ public class TaskService {
 		fireDataChanged();
 	}
 	
-	private Long createId() {
-		long range = Long.MAX_VALUE;
-		Random r = new Random();
-		long number = (long)(r.nextDouble()*range);
-		Log.i("TaskService", "Id : "+number);
-		return number;
-	}
+	DataChangeListener<Task> listener;
 	
-	List<DataChangeListener<Task>> listenerList = new ArrayList<DataChangeListener<Task>>();
-	
-	public void addDataChangeListener(DataChangeListener<Task> t) {
-		listenerList.add(t);
+	public void setDataChangeListener(DataChangeListener<Task> t) {
+		listener = t;
 	}
 	
 	public void fireDataChanged() {
-		for (DataChangeListener<Task> listener : listenerList) {
+		if (listener != null) {
 			listener.dataChanged();
 		}
 	}

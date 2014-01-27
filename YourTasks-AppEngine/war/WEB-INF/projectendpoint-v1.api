@@ -138,32 +138,6 @@
           },
           "name" : {
             "type" : "string"
-          },
-          "tasks" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Task"
-            }
-          }
-        }
-      },
-      "Task" : {
-        "id" : "Task",
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "prio" : {
-            "type" : "integer"
-          },
-          "completed" : {
-            "type" : "string",
-            "format" : "date-time"
           }
         }
       },

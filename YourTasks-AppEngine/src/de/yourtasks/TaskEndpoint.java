@@ -31,6 +31,7 @@ public class TaskEndpoint {
 	@SuppressWarnings({ "unchecked", "unused" })
 	@ApiMethod(name = "listTask")
 	public CollectionResponse<Task> listTask(
+			@Nullable @Named("projectId") Long projectId,
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
@@ -41,6 +42,7 @@ public class TaskEndpoint {
 		try {
 			mgr = getEntityManager();
 			Query query = mgr.createQuery("select t from Task t order by t.prio");
+//			query.setParameter("projectId", projectId);   where t.projectId = :projectId 
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				query.setHint(JPACursorHelper.CURSOR_HINT, cursor);

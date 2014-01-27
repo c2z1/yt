@@ -56,12 +56,24 @@
             android:name="de.yourtasks.RegisterActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name="de.yourtasks.task.ui.TaskListActivity"
+            android:name="de.yourtasks.activities.TaskListActivity"
             android:label="@string/title_activity_task_list" >
         </activity>
         <activity
-            android:name="de.yourtasks.task.ui.TaskDetailsActivity"
+            android:name="de.yourtasks.activities.TaskDetailsActivity"
             android:label="@string/title_activity_task_details" >
+        </activity>
+        <activity
+            android:name="de.yourtasks.activities.ProjectListActivity"
+            android:label="@string/title_activity_project_list" >
+        </activity>
+        <activity
+            android:name="de.yourtasks.activities.ProjectDetailsActivity"
+            android:label="@string/title_activity_project_details"
+            android:parentActivityName="de.yourtasks.activities.ProjectListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.yourtasks.activities.ProjectListActivity" />
         </activity>
     </application>
 

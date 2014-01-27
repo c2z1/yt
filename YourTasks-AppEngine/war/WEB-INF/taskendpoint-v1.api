@@ -110,6 +110,10 @@
       "rosyMethod" : "de.yourtasks.TaskEndpoint.listTask",
       "request" : {
         "parameters" : {
+          "projectId" : {
+            "type" : "int64",
+            "required" : false
+          },
           "cursor" : {
             "type" : "string",
             "required" : false
@@ -145,6 +149,10 @@
           "completed" : {
             "type" : "string",
             "format" : "date-time"
+          },
+          "projectId" : {
+            "type" : "string",
+            "format" : "int64"
           }
         }
       },

@@ -13,6 +13,7 @@ public class Task {
 	private String name;
 	private Integer prio;
 	private Date completed;
+	private Long projectId;
 	
 	public Long getId() {
 		return id;
@@ -37,5 +38,11 @@ public class Task {
 	}
 	public void setCompleted(Date completed) {
 		this.completed = completed;
+	}
+	public Long getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
 	}
 }

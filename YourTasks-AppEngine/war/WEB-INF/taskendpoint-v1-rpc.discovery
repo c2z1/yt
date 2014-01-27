@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/BWM8suDfovm_tK6s7HKm5wLFLtM\"",
+ "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/CiVMsJeVN0Vv1Hm89S0tlwVhleE\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -104,6 +104,10 @@
     "prio": {
      "type": "integer",
      "format": "int32"
+    },
+    "projectId": {
+     "type": "string",
+     "format": "int64"
     }
    }
   }
@@ -156,6 +160,10 @@
     "limit": {
      "type": "integer",
      "format": "int32"
+    },
+    "projectId": {
+     "type": "string",
+     "format": "int64"
     }
    },
    "returns": {

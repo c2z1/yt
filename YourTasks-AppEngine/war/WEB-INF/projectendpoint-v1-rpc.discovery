@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/y92gO3raV6zBmRPoOzOYgpLLPlE\"",
+ "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/qpJaxz-X2SDVWdSs75BDmhVfPAQ\"",
  "discoveryVersion": "v1",
  "id": "projectendpoint:v1",
  "name": "projectendpoint",
@@ -96,33 +96,6 @@
     },
     "name": {
      "type": "string"
-    },
-    "tasks": {
-     "type": "array",
-     "items": {
-      "$ref": "Task"
-     }
-    }
-   }
-  },
-  "Task": {
-   "id": "Task",
-   "type": "object",
-   "properties": {
-    "completed": {
-     "type": "string",
-     "format": "date-time"
-    },
-    "id": {
-     "type": "string",
-     "format": "int64"
-    },
-    "name": {
-     "type": "string"
-    },
-    "prio": {
-     "type": "integer",
-     "format": "int32"
     }
    }
   }

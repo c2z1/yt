@@ -3,7 +3,7 @@ package de.yourtasks;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import de.yourtasks.task.ui.TaskListActivity;
+import de.yourtasks.activities.ProjectListActivity;
 
 /**
  * The Main Activity.
@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 //		Intent intent = new Intent(this, RegisterActivity.class);
-		Intent intent = new Intent(this, TaskListActivity.class);
+		Intent intent = new Intent(this, ProjectListActivity.class);
 		startActivity(intent);
 
 		finish();
