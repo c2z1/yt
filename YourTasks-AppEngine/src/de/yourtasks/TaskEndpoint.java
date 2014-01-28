@@ -1,6 +1,13 @@
 package de.yourtasks;
 
-import de.yourtasks.EMF;
+import java.util.List;
+
+import javax.annotation.Nullable;
+import javax.inject.Named;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -8,15 +15,6 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JPACursorHelper;
-
-import java.util.List;
-
-import javax.annotation.Nullable;
-import javax.inject.Named;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 @Api(name = "taskendpoint", namespace = @ApiNamespace(ownerDomain = "yourtasks.de", ownerName = "yourtasks.de", packagePath = ""))
 public class TaskEndpoint {
@@ -41,8 +39,22 @@ public class TaskEndpoint {
 
 		try {
 			mgr = getEntityManager();
-			Query query = mgr.createQuery("select t from Task t order by t.prio");
-//			query.setParameter("projectId", projectId);   where t.projectId = :projectId 
+			StringBuilder sb = new StringBuilder("select t from Task t ");
+			if (projectId != null) {
+				if (projectId >= 0) {
+					sb.append("where t.projectId = :projectId ");
+				}
+			} else {
+				sb.append("where t.projectId IS NULL ");
+			}
+			sb.append("order by t.prio");
+			
+			Query query = mgr.createQuery(sb.toString());
+			
+			if (projectId != null && projectId >= 0) {
+				query.setParameter("projectId", projectId);  // where t.projectId = :projectId 
+			}
+			
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				query.setHint(JPACursorHelper.CURSOR_HINT, cursor);

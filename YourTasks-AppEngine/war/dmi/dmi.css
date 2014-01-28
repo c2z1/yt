@@ -1,0 +1,47 @@
+.Button { 
+	background-color:#aaa; 
+	color:#fff; 
+	width:78px; 
+	height:30px; 
+	border:2px solid #ddd; 
+	border-radius:10px; 
+	font: 18px Georgia, serif; 
+	padding-bottom: 5px
+}
+.arrowbtn {
+	font-weight: bolder
+	}
+.sliderpart {
+	height: 30px;
+	display: block;
+  	position: relative;
+  	float: left;
+  	background-color: #aaa;
+	}
+#datelabel {
+	display: inline-block;
+	text-align:center; 
+	padding-top: 3px;
+	vertical-align:top; 
+	color: #555; 
+	font: 16px Georgia, serif; 
+	width: 210px; 
+	height: 23px; 
+	border:2px solid #ddd; 
+	border-radius:10px;
+	}
+#imageDiv {
+	display: block; 
+	width:640px; 
+	height:400px
+	}
+#navslider {
+	display: block; 
+	width:640px; 
+	height:40px
+	}
+#navbutton {
+	display: block; 
+	width:640px; 
+	height:40px
+	}
