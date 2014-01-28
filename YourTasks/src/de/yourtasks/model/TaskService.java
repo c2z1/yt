@@ -59,7 +59,7 @@ public class TaskService {
 				if (!ProjectService.local) {
 					try {
 						ListTask lt = getEndpoint().listTask();
-						lt.setProjectId(null);
+						lt.setProjectId(projectId);
 						return lt.execute().getItems();
 					} catch (IOException e) {
 						Log.e("TaskListActivity", "Error during loading tasks", e);
