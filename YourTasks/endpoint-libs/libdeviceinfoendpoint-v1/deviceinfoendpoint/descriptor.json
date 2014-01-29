@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/deviceinfoendpoint/v1/20140127195527/java/1.16.0-rc/yourtasks.de-deviceinfoendpoint-v1-20140127195527-java-1.16.0-rc-sources.jar", 
-      "path": "yourtasks.de-deviceinfoendpoint-v1-20140127195527-java-1.16.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/deviceinfoendpoint/v1/20140129204224/java/1.16.0-rc/yourtasks.de-deviceinfoendpoint-v1-20140129204224-java-1.16.0-rc-sources.jar", 
+      "path": "yourtasks.de-deviceinfoendpoint-v1-20140129204224-java-1.16.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2014-01-27 19:55"
+      "timestamp": "2014-01-29 20:42"
     }, 
     {
-      "path": "yourtasks.de-deviceinfoendpoint-v1-20140127195527-java-1.16.0-rc.jar.properties", 
+      "path": "yourtasks.de-deviceinfoendpoint-v1-20140129204224-java-1.16.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -701,5 +701,5 @@
   "version": "v1", 
   "language_version": "1.16.0-rc", 
   "id": "deviceinfoendpoint:v1", 
-  "revision": 20140127195527
+  "revision": 20140129204224
 }

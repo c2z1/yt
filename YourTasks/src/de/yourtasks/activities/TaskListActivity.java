@@ -11,8 +11,10 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +38,43 @@ public class TaskListActivity extends Activity {
 	private TaskService taskService;
 	private long projectId;
 
+//	private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+//
+//	    // Called when the action mode is created; startActionMode() was called
+//	    @Override
+//	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//	        // Inflate a menu resource providing context menu items
+//	        MenuInflater inflater = mode.getMenuInflater();
+//	        inflater.inflate(R.menu.context_menu, menu);
+//	        return true;
+//	    }
+//
+//	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+//	    // may be called multiple times if the mode is invalidated.
+//	    @Override
+//	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//	        return false; // Return false if nothing is done
+//	    }
+//
+//	    // Called when the user selects a contextual menu item
+//	    @Override
+//	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//	        switch (item.getItemId()) {
+//	            case R.id.menu_share:
+//	                shareCurrentItem();
+//	                mode.finish(); // Action picked, so close the CAB
+//	                return true;
+//	            default:
+//	                return false;
+//	        }
+//	    }
+//
+//	    // Called when the user exits the action mode
+//	    @Override
+//	    public void onDestroyActionMode(ActionMode mode) {
+//	        mActionMode = null;
+//	    }
+//	};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,9 +82,9 @@ public class TaskListActivity extends Activity {
 		
 		projectId = getIntent().getLongExtra(ProjectService.PROJECT_ID_PARAM, -1);
 		
-		init(projectId);
-		
 		initActionBar();
+
+		init(projectId);
 	}
 	
 	private void initActionBar() {
@@ -59,26 +98,16 @@ public class TaskListActivity extends Activity {
 				ProjectService.getService().getProjects()) {
 				public View getView(int position, View convertView, ViewGroup parent) {
 					TextView tv = new TextView(getApplicationContext());
+					tv.setTextColor(getResources().getColor(android.R.color.black));
 					tv.setText(getItem(position).getName());
 					return tv;
-					
-//					LayoutInflater inflater = (LayoutInflater) getContext()
-//							.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//					
-//					final View rowView = convertView == null 
-//							? inflater.inflate(R.layout.project_list_item, parent, false) : convertView;
-//					
-//					final Project item = getItem(position);
-//	
-//					TextView textView = (TextView) rowView.findViewById(R.id.textView_project_list_item);
-//					
-//					textView.setText(item.getName());
-//					
-//					return rowView;
 				}
 				@Override
 					public View getDropDownView(int position, View convertView, ViewGroup parent) {
-						return getView(position, convertView, parent);
+						View tv = getView(position, convertView, parent);
+						tv.setPadding(5, 5, 5, 5);
+//						tv.setBackground(getResources().getDrawable(R.drawable.row_border));
+						return tv;
 					}
 			};
 		
@@ -122,12 +151,22 @@ public class TaskListActivity extends Activity {
 		});
 
 		((ListView) findViewById(R.id.taskListView)).setAdapter(adapter);
+		
+		List<Project> projects = ProjectService.getService().getProjects();
+		int indx = 0;
+		for (Project project : projects) {
+			if (project.getId().equals(projectId)) {
+				getActionBar().setSelectedNavigationItem(indx);
+				break;
+			}
+			indx++;
+		}
 	}
 
 	private void startDetailsView(Task t) {
 		Intent intent = new Intent(this, TaskDetailsActivity.class);
 		intent.putExtra(TaskService.TASK_ID_PARAM, t == null ? -1 : t.getId());
-		intent.putExtra(ProjectService.PROJECT_ID_PARAM, t == null ? -1 : t.getId());
+		intent.putExtra(ProjectService.PROJECT_ID_PARAM, projectId);
 		startActivity(intent);
 	}
 
@@ -147,13 +186,23 @@ public class TaskListActivity extends Activity {
 	        	taskService.loadTasks();
 	            return true;
 	        case R.id.action_projects:
-	        	openProjectsActivity();
+	        	startProjectsActivity();
+	        	return true;
+	        case R.id.action_edit_project:
+	        	startProjectDetailsView();
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	private void startProjectDetailsView() {
+		Intent intent = new Intent(this, ProjectDetailsActivity.class);
+		intent.putExtra(ProjectService.PROJECT_ID_PARAM, projectId);
+		startActivity(intent);
+	}
 
-	private void openProjectsActivity() {
+	private void startProjectsActivity() {
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		startActivity(intent);
 	}
@@ -186,9 +235,13 @@ public class TaskListActivity extends Activity {
 			});
 			
 			if (item != null) {
-				int color = item.getPrio() == null || item.getPrio() == 3 ? android.R.color.holo_orange_dark
-						: item.getPrio() < 3 ? android.R.color.holo_red_dark
-								: android.R.color.holo_green_dark;
+				int color = item.getPrio() == null || item.getPrio() == 3 
+						? android.R.color.holo_green_dark
+							: item.getPrio() < 2 
+							? android.R.color.holo_red_dark
+									: item.getPrio() < 3 
+									? android.R.color.holo_orange_dark
+											: android.R.color.darker_gray;
 				
 				textView.setTextColor(Resources.getSystem().getColor(color));
 			}

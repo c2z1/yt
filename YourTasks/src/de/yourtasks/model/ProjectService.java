@@ -44,10 +44,10 @@ public class ProjectService {
 	}
 	
 	public void loadProjects() {
-		new AsyncTask<Void, Void, List<Project>>() {
-			@Override
-			protected List<Project> doInBackground(Void... params) {
-				if (!local) {
+		if (!local) {
+			new AsyncTask<Void, Void, List<Project>>() {
+				@Override
+				protected List<Project> doInBackground(Void... params) {
 					try {
 						List<Project> val = getEndpoint().listProject().execute().getItems();
 						if (val != null) return val;
@@ -55,20 +55,22 @@ public class ProjectService {
 						Log.e("ProjectListActivity", "Error during loading projects", e);
 						e.printStackTrace();
 					}
-				} else {
-					return createDummies();
+					
+					return Collections.emptyList();
 				}
-				return Collections.emptyList();
-			}
-
-			@Override
-			protected void onPostExecute(List<Project> result) {
-				Log.d("ProjectService", "projects loaded " + result.size());
-				projectList.clear();
-				projectList.addAll(result);
-				fireDataChanged();
-			}
-		}.execute();
+	
+				@Override
+				protected void onPostExecute(List<Project> result) {
+					Log.d("ProjectService", "projects loaded " + result.size());
+					projectList.clear();
+					projectList.addAll(result);
+					fireDataChanged();
+				}
+			}.execute();
+		} else {
+			projectList.clear();
+			createDummies();
+		}
 	}
 	
 	private List<Project> createDummies() {

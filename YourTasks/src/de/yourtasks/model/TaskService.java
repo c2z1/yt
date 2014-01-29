@@ -21,7 +21,7 @@ import de.yourtasks.utils.IdCreator;
 
 public class TaskService {
 	// {Line}
-	public static final String NAME = "name", PRIO = "prio";
+	public static final String NAME = "name", PRIO = "prio", DESCRIPTION = "description";
 	
 	public static String TASK_ID_PARAM = "taskId";
 	
@@ -53,21 +53,19 @@ public class TaskService {
 	}
 	
 	public void loadTasks() {
+		if (!ProjectService.local) {
 		new AsyncTask<Void, Void, List<Task>>() {
 			@Override
 			protected List<Task> doInBackground(Void... params) {
-				if (!ProjectService.local) {
 					try {
 						ListTask lt = getEndpoint().listTask();
 						lt.setProjectId(projectId);
-						return lt.execute().getItems();
+						List<Task> val = lt.execute().getItems();
+						if (val != null) return val;
 					} catch (IOException e) {
 						Log.e("TaskListActivity", "Error during loading tasks", e);
 						e.printStackTrace();
 					}
-				} else {
-					return createDummies();
-				}
 				return Collections.emptyList();
 			}
 
@@ -77,12 +75,13 @@ public class TaskService {
 				taskList.clear();
 				taskList.addAll(result);
 				fireDataChanged();
-				
-				for (Task task : result) {
-					
-				}
 			}
 		}.execute();
+		} else {
+			taskList.clear();
+			createDummies();
+			fireDataChanged();
+		}
 	}
 	
 	private List<Task> createDummies() {

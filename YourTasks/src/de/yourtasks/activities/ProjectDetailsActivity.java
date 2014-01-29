@@ -1,10 +1,5 @@
 package de.yourtasks.activities;
 
-import de.yourtasks.R;
-import de.yourtasks.model.ProjectService;
-import de.yourtasks.model.TaskService;
-import de.yourtasks.projectendpoint.model.Project;
-import de.yourtasks.utils.ui.UIService;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,6 +9,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import de.yourtasks.R;
+import de.yourtasks.model.ProjectService;
+import de.yourtasks.model.TaskService;
+import de.yourtasks.projectendpoint.model.Project;
+import de.yourtasks.utils.ui.UIService;
 
 public class ProjectDetailsActivity extends Activity {
 
@@ -74,16 +74,16 @@ public class ProjectDetailsActivity extends Activity {
 	        	ok();
 	            return true;
 	        case R.id.btnDel:
-	        	removeTask();
+	        	removeProject();
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
 
-	private void removeTask() {
+	private void removeProject() {
 		new AlertDialog.Builder(this)
-	    .setTitle("Update Status")
+	    .setTitle(R.string.delete_question_title)
 	    .setMessage(R.string.project_remove_message)
 	    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	         public void onClick(DialogInterface dialog, int whichButton) {

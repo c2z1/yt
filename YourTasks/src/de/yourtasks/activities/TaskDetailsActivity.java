@@ -39,6 +39,7 @@ public class TaskDetailsActivity extends Activity {
 		
 		UIService.bind((EditText) findViewById(R.id.editName), task, TaskService.NAME);
 		UIService.bind((EditText) findViewById(R.id.editPrio), task, TaskService.PRIO);
+		UIService.bind((EditText) findViewById(R.id.editDescription), task, TaskService.DESCRIPTION);
 	}
 
 	
