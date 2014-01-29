@@ -65,8 +65,8 @@
 	}); 
 	
 	function initImages() {
-		val ch = $('#WaterlevelCheck')
-		val isChecked = ch.checked
+		var ch = $('#WaterlevelCheck')
+		var isChecked = ch.prop('checked')
 		if (isChecked) {
 			prepareImg(windId, 'Waterlevel')
 			prepareImg(windDirId, null)
