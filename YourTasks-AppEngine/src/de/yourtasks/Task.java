@@ -14,6 +14,7 @@ public class Task {
 	private Integer prio;
 	private Date completed;
 	private Long projectId;
+	private String description;
 	
 	public Long getId() {
 		return id;
@@ -44,5 +45,11 @@ public class Task {
 	}
 	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
