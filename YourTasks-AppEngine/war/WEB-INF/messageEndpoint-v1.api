@@ -71,6 +71,27 @@
       "response" : {
         "body" : "empty"
       }
+    },
+    "messageEndpoint.sendMessage" : {
+      "path" : "sendMessage/{message}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.MessageEndpoint.sendMessage",
+      "request" : {
+        "parameters" : {
+          "message" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
     }
   },
   "descriptor" : {
