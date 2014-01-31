@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import de.yourtasks.R;
 import de.yourtasks.model.ProjectService;
@@ -40,9 +42,27 @@ public class TaskDetailsActivity extends Activity {
 		UIService.bind((EditText) findViewById(R.id.editName), task, TaskService.NAME);
 		UIService.bind((EditText) findViewById(R.id.editPrio), task, TaskService.PRIO);
 		UIService.bind((EditText) findViewById(R.id.editDescription), task, TaskService.DESCRIPTION);
+		
+		findViewById(R.id.upPrioButton).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				addToPrio(+1);
+			}
+		});
+		findViewById(R.id.downPrioButton).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				addToPrio(-1);
+			}
+		});
 	}
 
 	
+	protected void addToPrio(int i) {
+		((EditText) findViewById(R.id.editPrio)).setText("" + (task.getPrio() + i));
+	}
+
+
 	@Override
 	public void onBackPressed() {
 		ok();
