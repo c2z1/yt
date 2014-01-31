@@ -159,7 +159,6 @@ public class TaskListActivity extends Activity {
 		ListView listView = ((ListView) findViewById(R.id.taskListView));
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		listView.setSelector(R.drawable.task_list_selector);
 		
 		List<Project> projects = ProjectService.getService().getProjects();
 		int indx = 0;
