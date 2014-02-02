@@ -43,43 +43,42 @@ public class TaskListActivity extends Activity {
 	private Task selectedItem  = null;
 
 	private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
-
-	    // Called when the action mode is created; startActionMode() was called
-	    @Override
-	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-	        // Inflate a menu resource providing context menu items
-	        MenuInflater inflater = mode.getMenuInflater();
-	        inflater.inflate(R.menu.task_list_context, menu);
-	        return true;
-	    }
-
-	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
-	    // may be called multiple times if the mode is invalidated.
-	    @Override
-	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-	        return false; // Return false if nothing is done
-	    }
-
-	    // Called when the user selects a contextual menu item
-	    @Override
-	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-	        switch (item.getItemId()) {
-	            case R.id.btnDel:
-	                taskService.removeTask(selectedItem);
-	                mode.finish();
-	                return true;
-	            default:
-	                return false;
-	        }
-	    }
-
-	    // Called when the user exits the action mode
-	    @Override
-	    public void onDestroyActionMode(ActionMode mode) {
-	        actionMode = null;
-	        selectedItem  = null;
-	    }
-	};
+			    // Called when the action mode is created; startActionMode() was called
+			    @Override
+			    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			        // Inflate a menu resource providing context menu items
+			        MenuInflater inflater = mode.getMenuInflater();
+			        inflater.inflate(R.menu.task_list_context, menu);
+			        return true;
+			    }
+		
+			    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+			    // may be called multiple times if the mode is invalidated.
+			    @Override
+			    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			        return false; // Return false if nothing is done
+			    }
+		
+			    // Called when the user selects a contextual menu item
+			    @Override
+			    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			        switch (item.getItemId()) {
+			            case R.id.btnDel:
+			                taskService.removeTask(selectedItem);
+			                mode.finish();
+			                return true;
+			            default:
+			                return false;
+			        }
+			    }
+		
+			    // Called when the user exits the action mode
+			    @Override
+			    public void onDestroyActionMode(ActionMode mode) {
+			        actionMode = null;
+			        selectedItem  = null;
+			    }
+			};
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,12 +95,14 @@ public class TaskListActivity extends Activity {
 	private void initActionBar() {
 		ActionBar actionBar = getActionBar();
 		
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
 		actionBar.setDisplayShowTitleEnabled(false);
 		
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		
 		final ArrayAdapter<Project> spinnerAdapter = new ArrayAdapter<Project>(this, R.layout.project_list_item, 
-				ProjectService.getService().getProjects()) {
+						ProjectService.getService().getProjects()) {
 				public View getView(int position, View convertView, ViewGroup parent) {
 					TextView tv = new TextView(getApplicationContext());
 					tv.setTextColor(getResources().getColor(android.R.color.black));
@@ -138,13 +139,14 @@ public class TaskListActivity extends Activity {
 	}
 
 	private void init(long projectId) {
+		this.projectId = projectId;
 		if (taskService != null) {
 			taskService.setDataChangeListener(null);
 		}
 		
 		taskService = TaskService.getService(projectId);
 
-		final ArrayAdapter<Task> adapter = new TaskAdapter(getApplicationContext(), R.layout.btn_list_item, 
+		final ArrayAdapter<Task> adapter = new TaskAdapter(getApplicationContext(), R.layout.task_list_item, 
 				taskService.getTasks());
 					
 		taskService.setDataChangeListener(new DataChangeListener<Task>() {
@@ -227,15 +229,15 @@ public class TaskListActivity extends Activity {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
 			final View rowView = convertView == null 
-					? inflater.inflate(R.layout.btn_list_item, parent, false) : convertView;
+					? inflater.inflate(R.layout.task_list_item, parent, false) : convertView;
 			
-			final Task item = getItem(position);
+			final Task task = getItem(position);
 
-			int col = item.equals(selectedItem)
+			int col = task.equals(selectedItem)
 					? getResources().getColor(android.R.color.holo_blue_light)
 							: getResources().getColor(android.R.color.transparent);
 					
-			Log.i("TaskListActivity", "Item : " + item + " , Col : " + col);
+			Log.i("TaskListActivity", "Item : " + task + " , Col : " + col);
 			
 			rowView.setBackgroundColor(col);
 			
@@ -248,7 +250,7 @@ public class TaskListActivity extends Activity {
 						if (actionMode != null) {
 							return false;
 						}
-						selectedItem = item;
+						selectedItem = task;
 	
 						// start the CAB using the ActionMode.Callback defined above
 						actionMode = TaskListActivity.this.startActionMode(actionModeCallback);
@@ -258,21 +260,21 @@ public class TaskListActivity extends Activity {
 					}
 				});
 			
-			textView.setText(item.getName());
+			textView.setText(task.getName());
 			
 			textView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					startDetailsView(item);
+					startDetailsView(task);
 				}
 			});
 			
-			if (item != null) {
-				int color = item.getPrio() == null || item.getPrio() == 3 
+			if (task != null) {
+				int color = task.getPrio() == null || task.getPrio() == 3 
 						? android.R.color.holo_green_dark
-							: item.getPrio() < 2 
+							: task.getPrio() < 2 
 							? android.R.color.holo_red_dark
-									: item.getPrio() < 3 
+									: task.getPrio() < 3 
 									? android.R.color.holo_orange_dark
 											: android.R.color.darker_gray;
 				
@@ -281,21 +283,22 @@ public class TaskListActivity extends Activity {
 
 			CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.itemCheck);
 			
-			checkBox.setChecked(Boolean.TRUE.equals(item.getCompleted()));
+			checkBox.setChecked(task.getCompleted() != null);
 
 			checkBox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					boolean checked = ((CheckBox) v).isChecked();
-					item.setCompleted(checked ? new DateTime(new Date()) : null);
+					task.setCompleted(checked ? new DateTime(new Date()) : null);
+					taskService.saveTask(task);
 					notifyDataSetChanged();
 				}
 			});
 			
-			if (item.getCompleted() != null) {
-				rowView.setAlpha(0.3f);
+			if (task.getCompleted() != null) {
+				textView.setAlpha(0.3f);
 			} else {
-				rowView.setAlpha(1.0f);
+				textView.setAlpha(1.0f);
 			}
 
 			return rowView;

@@ -46,13 +46,13 @@ public class TaskDetailsActivity extends Activity {
 		findViewById(R.id.upPrioButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addToPrio(+1);
+				addToPrio(-1);
 			}
 		});
 		findViewById(R.id.downPrioButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addToPrio(-1);
+				addToPrio(+1);
 			}
 		});
 	}

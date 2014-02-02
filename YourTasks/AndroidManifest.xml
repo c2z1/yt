@@ -57,11 +57,13 @@
             android:launchMode="singleTop" />
         <activity
             android:name="de.yourtasks.activities.TaskListActivity"
-            android:label="@string/title_activity_task_list" >
+            android:label="@string/title_activity_task_list"
+            android:parentActivityName="de.yourtasks.activities.ProjectListActivity" >
         </activity>
         <activity
             android:name="de.yourtasks.activities.TaskDetailsActivity"
-            android:label="@string/title_activity_task_details" >
+            android:label="@string/title_activity_task_details"
+            android:parentActivityName="de.yourtasks.activities.TaskListActivity" >
         </activity>
         <activity
             android:name="de.yourtasks.activities.ProjectListActivity"

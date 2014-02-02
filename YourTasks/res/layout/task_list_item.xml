@@ -8,14 +8,13 @@
     <TextView
         android:id="@+id/itemTextView"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="40dp"
         android:layout_weight="1"/>
 
     <CheckBox
         android:id="@+id/itemCheck"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        
+        android:layout_height="fill_parent"
         android:text="" />
 
 </LinearLayout>

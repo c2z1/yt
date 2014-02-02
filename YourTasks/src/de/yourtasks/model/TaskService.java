@@ -18,6 +18,7 @@ import de.yourtasks.taskendpoint.Taskendpoint.ListTask;
 import de.yourtasks.taskendpoint.model.Task;
 import de.yourtasks.utils.DataChangeListener;
 import de.yourtasks.utils.IdCreator;
+import de.yourtasks.utils.Util;
 
 public class TaskService {
 	// {Line}
@@ -54,29 +55,29 @@ public class TaskService {
 	
 	public void loadTasks() {
 		if (!ProjectService.local) {
-		new AsyncTask<Void, Void, List<Task>>() {
-			@Override
-			protected List<Task> doInBackground(Void... params) {
-					try {
-						ListTask lt = getEndpoint().listTask();
-						lt.setProjectId(projectId);
-						List<Task> val = lt.execute().getItems();
-						if (val != null) return val;
-					} catch (IOException e) {
-						Log.e("TaskListActivity", "Error during loading tasks", e);
-						e.printStackTrace();
-					}
-				return Collections.emptyList();
-			}
-
-			@Override
-			protected void onPostExecute(List<Task> result) {
-				Log.d("TaskListActivity", "tasks loaded " + result.size());
-				taskList.clear();
-				taskList.addAll(result);
-				fireDataChanged();
-			}
-		}.execute();
+			new AsyncTask<Void, Void, List<Task>>() {
+				@Override
+				protected List<Task> doInBackground(Void... params) {
+						try {
+							ListTask lt = getEndpoint().listTask();
+							lt.setProjectId(projectId);
+							List<Task> val = lt.execute().getItems();
+							if (val != null) return val;
+						} catch (IOException e) {
+							Log.e("TaskListActivity", "Error during loading tasks", e);
+							e.printStackTrace();
+						}
+					return Collections.emptyList();
+				}
+	
+				@Override
+				protected void onPostExecute(List<Task> result) {
+					Log.d("TaskListActivity", "tasks loaded " + result.size());
+					taskList.clear();
+					taskList.addAll(result);
+					fireDataChanged();
+				}
+			}.execute();
 		} else {
 			taskList.clear();
 			createDummies();
@@ -117,19 +118,21 @@ public class TaskService {
 	}
 	
 	public void removeTask(final Task t) {
-		if (!ProjectService.local) {
-			new AsyncTask<Void, Void, Void>() {
-				@Override
-				protected Void doInBackground(Void... params) {
-					try {
-						return getEndpoint().removeTask(t.getId()).execute();
-					} catch (IOException e) {
-						Log.e("TaskListActivity", "Error during removing task: " + t, e);
-						e.printStackTrace();
-						throw new RuntimeException(e);
+		if (!createdTasks.remove(t)) {
+			if (!ProjectService.local) {
+				new AsyncTask<Void, Void, Void>() {
+					@Override
+					protected Void doInBackground(Void... params) {
+						try {
+							return getEndpoint().removeTask(t.getId()).execute();
+						} catch (IOException e) {
+							Log.e("TaskListActivity", "Error during removing task: " + t, e);
+							e.printStackTrace();
+							throw new RuntimeException(e);
+						}
 					}
-				}
-			}.execute();
+				}.execute();
+			}
 		}
 		taskList.remove(t);
 		fireDataChanged();
@@ -161,11 +164,15 @@ public class TaskService {
 	}
 
 	public void saveTask(Task task) {
-		if (!ProjectService.local) {
-			if (createdTasks.remove(task)) {
-				insertTask(task);
-			} else {
-				updateTask(task);
+		if (Util.isEmpty(task.getName()) && Util.isEmpty(task.getDescription())) {
+			removeTask(task);
+		} else {
+			if (!ProjectService.local) {
+				if (createdTasks.remove(task)) {
+					insertTask(task);
+				} else {
+					updateTask(task);
+				}
 			}
 		}
 		fireDataChanged();

@@ -10,13 +10,13 @@
 # view AndroidManifest.xml #generated:55
 -keep class de.yourtasks.RegisterActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:70
+# view AndroidManifest.xml #generated:72
 -keep class de.yourtasks.activities.ProjectDetailsActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:66
+# view AndroidManifest.xml #generated:68
 -keep class de.yourtasks.activities.ProjectListActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:62
+# view AndroidManifest.xml #generated:63
 -keep class de.yourtasks.activities.TaskDetailsActivity { <init>(...); }
 
 # view AndroidManifest.xml #generated:58

@@ -39,11 +39,11 @@
         android:layout_alignLeft="@+id/editName"
         android:layout_alignRight="@+id/editName"
         android:layout_below="@+id/editName"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:inputType="textMultiLine"
         android:gravity="top"
-		android:lines="5"/>
+		android:lines="3"/>
     
     <TextView
         android:id="@+id/lblPrio"
@@ -60,25 +60,25 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editDescription"
         android:layout_below="@+id/editDescription"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
         android:width="40sp"
         android:ems="10"
         android:inputType="number" />
 
     <ImageButton
-        android:id="@+id/upPrioButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/editPrio"
-        android:layout_toRightOf="@+id/editPrio"
-        android:src="@android:drawable/arrow_up_float" />
-    
-    <ImageButton
         android:id="@+id/downPrioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/editPrio"
-        android:layout_toRightOf="@+id/upPrioButton"
+        android:layout_toRightOf="@+id/editPrio"
         android:src="@android:drawable/arrow_down_float" />
+    
+    <ImageButton
+        android:id="@+id/upPrioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editPrio"
+        android:layout_toRightOf="@+id/downPrioButton"
+        android:src="@android:drawable/arrow_up_float" />
 
 </RelativeLayout>
