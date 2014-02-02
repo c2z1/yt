@@ -39,13 +39,13 @@ public class TaskEndpoint {
 
 		try {
 			mgr = getEntityManager();
-			StringBuilder sb = new StringBuilder("select t from Task t ");
+			StringBuilder sb = new StringBuilder("select t from Task t where t.completed IS NULL ");
 			if (projectId != null) {
 				if (projectId >= 0) {
-					sb.append("where t.projectId = :projectId ");
+					sb.append("AND t.projectId = :projectId ");
 				}
 			} else {
-				sb.append("where t.projectId IS NULL ");
+				sb.append("AND t.projectId IS NULL ");
 			}
 			sb.append("order by t.prio");
 			
