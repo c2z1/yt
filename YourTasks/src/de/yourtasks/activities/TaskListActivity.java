@@ -107,12 +107,13 @@ public class TaskListActivity extends Activity {
 					TextView tv = new TextView(getApplicationContext());
 					tv.setTextColor(getResources().getColor(android.R.color.black));
 					tv.setText(getItem(position).getName());
+					tv.setTextSize(16);
 					return tv;
 				}
 				@Override
 					public View getDropDownView(int position, View convertView, ViewGroup parent) {
 						View tv = getView(position, convertView, parent);
-						tv.setPadding(5, 5, 5, 5);
+						tv.setPadding(20, 20, 20, 20);
 //						tv.setBackground(getResources().getDrawable(R.drawable.row_border));
 						return tv;
 					}
