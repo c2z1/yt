@@ -114,6 +114,10 @@
             "type" : "int64",
             "required" : false
           },
+          "withCompleted" : {
+            "type" : "boolean",
+            "required" : false
+          },
           "cursor" : {
             "type" : "string",
             "required" : false

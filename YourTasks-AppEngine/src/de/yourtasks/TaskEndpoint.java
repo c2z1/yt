@@ -1,5 +1,8 @@
 package de.yourtasks;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -30,6 +33,7 @@ public class TaskEndpoint {
 	@ApiMethod(name = "listTask")
 	public CollectionResponse<Task> listTask(
 			@Nullable @Named("projectId") Long projectId,
+			@Nullable @Named("withCompleted") Boolean withCompleted,
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
@@ -39,15 +43,30 @@ public class TaskEndpoint {
 
 		try {
 			mgr = getEntityManager();
-			StringBuilder sb = new StringBuilder("select t from Task t where t.completed IS NULL ");
+			StringBuilder sb = new StringBuilder("select t from Task t");
+			
+			Collection<String> whereClauses = new ArrayList<String>();
+			if (Boolean.FALSE.equals(withCompleted)) {
+				whereClauses.add("t.completed IS NULL");
+			}
 			if (projectId != null) {
 				if (projectId >= 0) {
-					sb.append("AND t.projectId = :projectId ");
+					whereClauses.add("t.projectId = :projectId");
 				}
 			} else {
-				sb.append("AND t.projectId IS NULL ");
+				sb.append("t.projectId IS NULL");
 			}
-			sb.append("order by t.prio");
+			Iterator<String> it = whereClauses.iterator();
+			if (it.hasNext()) {
+				sb.append(" where ");
+				sb.append(it.next());
+			}
+			while (it.hasNext()) {
+				sb.append(" AND ");
+				sb.append(it.next());
+			}
+			
+			sb.append(" order by t.prio");
 			
 			Query query = mgr.createQuery(sb.toString());
 			

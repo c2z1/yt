@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.style.LineHeightSpan.WithDensity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -41,6 +42,8 @@ public class TaskListActivity extends Activity {
 	
 	protected Object actionMode;
 	private Task selectedItem  = null;
+	
+	private boolean showWithCompleted = false;
 
 	private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
 			    // Called when the action mode is created; startActionMode() was called
@@ -194,7 +197,7 @@ public class TaskListActivity extends Activity {
 	        	startDetailsView(null);
 	            return true;
 	        case R.id.action_refresh:
-	        	taskService.loadTasks();
+	        	reload();
 	            return true;
 	        case R.id.action_projects:
 	        	startProjectsActivity();
@@ -202,11 +205,24 @@ public class TaskListActivity extends Activity {
 	        case R.id.action_edit_project:
 	        	startProjectDetailsView();
 	        	return true;
+	        case R.id.show_completed:
+	        	showWithCompleted = !item.isChecked();
+				item.setChecked(showWithCompleted);
+				reload();
+	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
 	
+	private void reload() {
+		taskService.loadTasks(isShowCompleted());
+	}
+
+	private boolean isShowCompleted() {
+		return showWithCompleted;
+	}
+
 	private void startProjectDetailsView() {
 		Intent intent = new Intent(this, ProjectDetailsActivity.class);
 		intent.putExtra(ProjectService.PROJECT_ID_PARAM, projectId);

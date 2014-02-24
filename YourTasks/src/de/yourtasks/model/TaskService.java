@@ -42,7 +42,7 @@ public class TaskService {
 		if (instance == null) {
 			instance  = new TaskService(projectId);
 			serviceMap.put(projectId, instance);
-			instance.loadTasks();
+			instance.loadTasks(false);
 		}
 		return instance;
 	}
@@ -53,7 +53,7 @@ public class TaskService {
 		return builder.build();
 	}
 	
-	public void loadTasks() {
+	public void loadTasks(final boolean withCompleted) {
 		if (!ProjectService.local) {
 			new AsyncTask<Void, Void, List<Task>>() {
 				@Override
@@ -61,6 +61,7 @@ public class TaskService {
 						try {
 							ListTask lt = getEndpoint().listTask();
 							lt.setProjectId(projectId);
+							lt.setWithCompleted(withCompleted);
 							List<Task> val = lt.execute().getItems();
 							if (val != null) return val;
 						} catch (IOException e) {

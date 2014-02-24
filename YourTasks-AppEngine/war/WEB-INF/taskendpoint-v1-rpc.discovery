@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/qcgmBDn4aDoMWHtfLdNvRNnvRzM\"",
+ "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/q70tWdVIJqoA_42Ijz9dNI0hzL0\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -167,6 +167,9 @@
     "projectId": {
      "type": "string",
      "format": "int64"
+    },
+    "withCompleted": {
+     "type": "boolean"
     }
    },
    "returns": {

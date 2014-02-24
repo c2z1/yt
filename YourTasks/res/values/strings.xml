@@ -26,5 +26,6 @@
     <string name="title_activity_project_details">Projektdetails</string>
     <string name="delete_question_title">Wirklich LÃ¶schen?</string>
     <string name="lbl_description">Beschreibung</string>
+    <string name="erledigt_anzeigen">Erledigte anzeigen</string>
 
 </resources>

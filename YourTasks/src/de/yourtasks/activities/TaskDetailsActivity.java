@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
 import android.widget.EditText;
 import de.yourtasks.R;
 import de.yourtasks.model.ProjectService;
@@ -55,6 +56,9 @@ public class TaskDetailsActivity extends Activity {
 				addToPrio(+1);
 			}
 		});
+		
+		((EditText) findViewById(R.id.editName)).requestFocus();
+		getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 	}
 
 	

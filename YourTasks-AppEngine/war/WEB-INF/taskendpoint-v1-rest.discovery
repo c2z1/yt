@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/qcgmBDn4aDoMWHtfLdNvRNnvRzM\"",
+ "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/q70tWdVIJqoA_42Ijz9dNI0hzL0\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -172,6 +172,10 @@
     "projectId": {
      "type": "string",
      "format": "int64",
+     "location": "query"
+    },
+    "withCompleted": {
+     "type": "boolean",
      "location": "query"
     }
    },
