@@ -1,6 +1,6 @@
 .Button { 
-	background-color:#aaa; 
-	color:#fff; 
+	background-color:#fff; 
+	color:#111; 
 	width:78px; 
 	height:30px; 
 	border:2px solid #ddd; 
@@ -45,3 +45,54 @@
 	width:640px; 
 	height:40px
 	}
+
+#windDiv {
+	display: block;
+	z-index: 1;
+	position: absolute;
+	width:640px; 
+	height:400px;
+}
+#windDirDiv {
+	display: block;
+	z-index: 2;
+	position: relative;
+	width:640px; 
+	height:400px;
+}
+#datelabel {
+	display: block;
+	z-index: 3;
+	position: absolute;
+	width:180px; 
+	height:22px;
+	left:20px;
+	top:280px;
+	background-color: white;
+}
+#navbuttons {
+	display: block;
+	position: relative;
+	float: left;
+}
+#toggle-btn-grp {
+	display: block;
+	position: relative;
+	float: left;
+	padding-left: 30px;
+}
+.toggle-btn { 
+    text-align:centre; 
+    padding:0.2em; 
+    color:#000; 
+    background-color:#FFF; 
+    border-radius:10px; 
+    display:inline-block; 
+    border:solid 1px #FFF; 
+    cursor:pointer;
+    font: 14px Georgia, serif; 
+}
+.toggle-btn:hover,.Button:hover { 
+    border:solid 1px #a0d5dc !important; 
+    background:#f1fdfe;
+}

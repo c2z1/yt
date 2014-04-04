@@ -2,83 +2,24 @@
 <html>
 <head>
 	<style type="text/css" media="all"> @import "dmi.css"; </style>
-	<style type="text/css">
-		#windDiv {
-			display: block;
-			z-index: 1;
-			position: absolute;
-			width:640px; 
-			height:400px;
-		}
-		#windDirDiv {
-			display: block;
-			z-index: 2;
-			position: relative;
-			width:640px; 
-			height:400px;
-		}
-		#datelabel {
-			display: block;
-			z-index: 3;
-			position: absolute;
-			width:180px; 
-			height:22px;
-			left:20px;
-			top:280px;
-			background-color: white;
-		}
-		#navbuttons {
-			display: block;
-			position: relative;
-			float: left;
-		}
-		#check {
-			display: block;
-			position: relative;
-			float: left;
-			margin-left: 150px;
-			margin-top: 10px;
-			font-size: larger;
-		}
-/*		#refreshLabel {
-			display: block;
-			z-index: 3;
-			position: absolute;
-			width:45px; 
-			height:22px;
-			left:10px;
-			top:380px;
-			background-color: white;
-			text-align:center; 
-		}*/
-	</style>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://malsup.github.io/min/jquery.cycle.all.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://malsup.github.io/min/jquery.cycle.all.min.js"></script>
 <script type="text/javascript" src="dmi.js"></script>
 <script>
 	var windDirId = '#windDirDiv'
 	var windId = '#windDiv'
 	
 	$(function() {
+		$(".toggle-btn").change(initImages);
 		init(initImages, displayJQ);
 	}); 
 	
 	function initImages() {
-		var ch = $('#WaterlevelCheck')
-		var isChecked = ch.prop('checked')
-		if (isChecked) {
-			prepareImg(windId, 'Waterlevel')
-			prepareImg(windDirId, null)
-		} else {
-			prepareImg(windId, 'Wind')
-			prepareImg(windDirId, 'WindDirection')
-		}
+		var kind = $("input[name=group]:checked").val()
+		prepareImg(windId, kind)
+		prepareImg(windDirId, (kind == 'Wind') ? 'WindDirection' : null)
 		displayJQ();
-	}
-	
-	function initCheck() {
-		initImages()
 	}
 	
 	function prepareImg(id, type) {
@@ -121,8 +62,10 @@
 		<input type="submit" class="arrowbtn Button" value=">" onclick="nextImage(1)"/>
 		<input type="submit" class="arrowbtn Button" value=">>" onclick="nextImage(5)"/>
 	</div>
-	<div id=check>
-		<input type="checkbox" id="WaterlevelCheck" value="salami" onclick="initCheck()">Wasserstand<br>
+	<div id="toggle-btn-grp">
+	    <label onclick="" class="toggle-btn"><input type="radio" name="group" value='Wind' checked/>Wind</label>
+	    <label onclick="" class="toggle-btn"><input type="radio" name="group" value='Waterlevel'/>Wasserstand</label>
+    	<label onclick="" class="toggle-btn"><input type="radio" name="group" value='Temperature'/>Temperatur</label>
 	</div>
 	<br>
 	<label id="print"></label>
