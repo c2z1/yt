@@ -1,5 +1,6 @@
 package de.yourtasks.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,10 +8,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 
 import de.yourtasks.taskendpoint.Taskendpoint;
@@ -23,6 +26,8 @@ import de.yourtasks.utils.Util;
 public class TaskService {
 	// {Line}
 	public static final String NAME = "name", PRIO = "prio", DESCRIPTION = "description";
+
+	protected static final String FILENAME = "tasks.txt";
 	
 	public static String TASK_ID_PARAM = "taskId";
 	
@@ -42,7 +47,7 @@ public class TaskService {
 		if (instance == null) {
 			instance  = new TaskService(projectId);
 			serviceMap.put(projectId, instance);
-			instance.loadTasks(false);
+			instance.loadTasks(false, null);
 		}
 		return instance;
 	}
@@ -53,7 +58,7 @@ public class TaskService {
 		return builder.build();
 	}
 	
-	public void loadTasks(final boolean withCompleted) {
+	public void loadTasks(final boolean withCompleted, final Context context) {
 		if (!ProjectService.local) {
 			new AsyncTask<Void, Void, List<Task>>() {
 				@Override
@@ -76,6 +81,16 @@ public class TaskService {
 					Log.d("TaskListActivity", "tasks loaded " + result.size());
 					taskList.clear();
 					taskList.addAll(result);
+					if (context != null) {
+						String filePath = context.getFilesDir().getPath().toString() + "/" + FILENAME;
+						LocalTaskPersistence localPersister = new LocalTaskPersistence(new AndroidJsonFactory(), new File(filePath));
+						try {
+							localPersister.saveTasks(result);
+						} catch (IOException e) {
+							Log.e(TaskService.class.getSimpleName(), "localSave fehlgeschlagen", e);
+							e.printStackTrace();
+						}
+					}
 					fireDataChanged();
 				}
 			}.execute();

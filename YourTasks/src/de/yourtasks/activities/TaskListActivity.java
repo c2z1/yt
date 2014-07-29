@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.style.LineHeightSpan.WithDensity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -216,7 +215,7 @@ public class TaskListActivity extends Activity {
 	}
 	
 	private void reload() {
-		taskService.loadTasks(isShowCompleted());
+		taskService.loadTasks(isShowCompleted(), getApplicationContext());
 	}
 
 	private boolean isShowCompleted() {
