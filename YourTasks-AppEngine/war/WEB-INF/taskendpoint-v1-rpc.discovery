@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/cNsRM5xlRnfQ-LkcZ0W43YnrfJ0\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/lgJIOvk6KCE0xBY3z1bXAB26ApI\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -120,38 +120,6 @@
   }
  },
  "methods": {
-  "taskendpoint.convertModel": {
-   "id": "taskendpoint.convertModel",
-   "parameters": {
-    "id": {
-     "type": "string",
-     "required": true,
-     "format": "int64"
-    }
-   },
-   "parameterOrder": [
-    "id"
-   ],
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "taskendpoint.convertProjects": {
-   "id": "taskendpoint.convertProjects",
-   "parameters": {
-    "id": {
-     "type": "string",
-     "required": true,
-     "format": "int64"
-    }
-   },
-   "parameterOrder": [
-    "id"
-   ],
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
   "taskendpoint.getTask": {
    "id": "taskendpoint.getTask",
    "allowGet": true,
@@ -200,7 +168,7 @@
      "type": "integer",
      "format": "int32"
     },
-    "projectId": {
+    "parentTaskId": {
      "type": "string",
      "format": "int64"
     },

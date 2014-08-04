@@ -30,9 +30,9 @@ public class TaskEndpoint {
 	 * persisted and a cursor to the next page.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
-	@ApiMethod(name = "listTask")
+	@ApiMethod(name = "listTask", path = "list_task")
 	public CollectionResponse<Task> listTask(
-			@Nullable @Named("projectId") Long projectId,
+			@Nullable @Named("parentTaskId") Long parentTaskId,
 			@Nullable @Named("withCompleted") Boolean withCompleted,
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
@@ -49,9 +49,9 @@ public class TaskEndpoint {
 			if (Boolean.FALSE.equals(withCompleted)) {
 				whereClauses.add("t.completed IS NULL");
 			}
-			if (projectId != null) {
-				if (projectId >= 0) {
-					whereClauses.add("t.projectId = :projectId");
+			if (parentTaskId != null) {
+				if (parentTaskId >= 0) {
+					whereClauses.add("t.parentTaskId = :parentTaskId");
 				}
 			} else {
 				sb.append("t.projectId IS NULL");
@@ -70,8 +70,8 @@ public class TaskEndpoint {
 			
 			Query query = mgr.createQuery(sb.toString());
 			
-			if (projectId != null && projectId >= 0) {
-				query.setParameter("projectId", projectId);  // where t.projectId = :projectId 
+			if (parentTaskId != null && parentTaskId >= 0) {
+				query.setParameter("parentTaskId", parentTaskId);  // where t.parentTaskId = :parentTaskId 
 			}
 			
 			if (cursorString != null && cursorString != "") {
@@ -161,68 +161,6 @@ public class TaskEndpoint {
 			mgr.close();
 		}
 		return task;
-	}
-
-	/**
-	 * This method removes the entity with primary key id.
-	 * It uses HTTP DELETE method.
-	 *
-	 * @param id the primary key of the entity to be deleted.
-	 */
-	@ApiMethod(name = "convertModel")
-	public void convertModel(@Named("id") Long id) {
-		EntityManager mgr = null;
-		try {
-			mgr = getEntityManager();
-			Query query = mgr.createQuery("select t from Task t where t.id = ':taskId");
-			
-			query.setParameter("taskId", id);  
-			
-			List<Task> list = (List<Task>) query.getResultList();
-			
-			
-			for (Task task : list) {
-				Long tmpid = task.getProjectId();
-				task.setParentTaskId(tmpid + 1);
-				mgr.persist(task);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			e.getMessage();
-		} finally {
-			mgr.close();
-			
-		}
-	}
-	/**
-	 * This method removes the entity with primary key id.
-	 * It uses HTTP DELETE method.
-	 *
-	 * @param id the primary key of the entity to be deleted.
-	 */
-	@ApiMethod(name = "convertProjects")
-	public void convertProjects(@Named("id") Long id) {
-		EntityManager mgr = null;
-		try {
-			mgr = getEntityManager();
-			
-			Query query = mgr.createQuery("select p from Project p where p.id = :projectid");
-			query.setParameter("projectid", id);  
-			List<Project> projectlist = (List<Project>) query.getResultList();
-			for (Project project : projectlist) {
-				Task t = new Task();
-				t.setId(project.getId() + 1);
-				t.setName(project.getName());
-				t.setPrio(3);
-				mgr.persist(t);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			e.getMessage();
-		} finally {
-			mgr.close();
-			
-		}
 	}
 
 	/**

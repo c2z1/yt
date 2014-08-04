@@ -1,6 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- Search, should appear as action button -->
     <item android:id="@+id/action_new"
           android:icon="@android:drawable/ic_input_add"
           android:showAsAction="ifRoom" 
@@ -10,14 +9,6 @@
           android:icon="@drawable/ic_menu_refresh"
           android:showAsAction="ifRoom"
           android:title="@string/refresh"
-          />
-    <item android:id="@+id/action_projects"
-          android:showAsAction="never"
-          android:title="@string/action_projects"
-          />
-    <item android:id="@+id/action_edit_project"
-          android:showAsAction="never"
-          android:title="@string/action_edit_project"
           />
     <group android:checkableBehavior="all">
         <item android:id="@+id/show_completed"

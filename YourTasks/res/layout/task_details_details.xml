@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TaskDetails" >
+
+    <EditText
+        android:id="@+id/editDescription"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="@string/hint_description"
+        android:inputType="textMultiLine"
+        android:lines="2" />
+
+    <EditText
+        android:id="@+id/editPrio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editDescription"
+        android:layout_below="@+id/editDescription"
+        android:layout_marginTop="10dp"
+        android:width="40sp"
+        android:ems="10"
+        android:inputType="number" />
+
+    <ImageButton
+        android:id="@+id/downPrioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editPrio"
+        android:layout_toRightOf="@+id/editPrio"
+        android:src="@android:drawable/arrow_down_float"
+        tools:ignore="ContentDescription" />
+    
+    <ImageButton
+        android:id="@+id/upPrioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editPrio"
+        android:layout_toRightOf="@+id/downPrioButton"
+        android:src="@android:drawable/arrow_up_float"
+        tools:ignore="ContentDescription" />
+</RelativeLayout>
