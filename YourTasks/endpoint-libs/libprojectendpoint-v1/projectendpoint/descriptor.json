@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/projectendpoint/v1/20140224185233/java/1.16.0-rc/yourtasks.de-projectendpoint-v1-20140224185233-java-1.16.0-rc-sources.jar", 
-      "path": "yourtasks.de-projectendpoint-v1-20140224185233-java-1.16.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/projectendpoint/v1/20140804215032/java/1.16.0-rc/yourtasks.de-projectendpoint-v1-20140804215032-java-1.16.0-rc-sources.jar", 
+      "path": "yourtasks.de-projectendpoint-v1-20140804215032-java-1.16.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2014-02-24 18:52"
+      "timestamp": "2014-08-04 21:50"
     }, 
     {
-      "path": "yourtasks.de-projectendpoint-v1-20140224185233-java-1.16.0-rc.jar.properties", 
+      "path": "yourtasks.de-projectendpoint-v1-20140804215032-java-1.16.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -701,5 +701,5 @@
   "version": "v1", 
   "language_version": "1.16.0-rc", 
   "id": "projectendpoint:v1", 
-  "revision": 20140224185233
+  "revision": 20140804215032
 }

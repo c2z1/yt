@@ -169,6 +169,68 @@ public class TaskEndpoint {
 	 *
 	 * @param id the primary key of the entity to be deleted.
 	 */
+	@ApiMethod(name = "convertModel")
+	public void convertModel(@Named("id") Long id) {
+		EntityManager mgr = null;
+		try {
+			mgr = getEntityManager();
+			Query query = mgr.createQuery("select t from Task t where t.id = ':taskId");
+			
+			query.setParameter("taskId", id);  
+			
+			List<Task> list = (List<Task>) query.getResultList();
+			
+			
+			for (Task task : list) {
+				Long tmpid = task.getProjectId();
+				task.setParentTaskId(tmpid + 1);
+				mgr.persist(task);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			e.getMessage();
+		} finally {
+			mgr.close();
+			
+		}
+	}
+	/**
+	 * This method removes the entity with primary key id.
+	 * It uses HTTP DELETE method.
+	 *
+	 * @param id the primary key of the entity to be deleted.
+	 */
+	@ApiMethod(name = "convertProjects")
+	public void convertProjects(@Named("id") Long id) {
+		EntityManager mgr = null;
+		try {
+			mgr = getEntityManager();
+			
+			Query query = mgr.createQuery("select p from Project p where p.id = :projectid");
+			query.setParameter("projectid", id);  
+			List<Project> projectlist = (List<Project>) query.getResultList();
+			for (Project project : projectlist) {
+				Task t = new Task();
+				t.setId(project.getId() + 1);
+				t.setName(project.getName());
+				t.setPrio(3);
+				mgr.persist(t);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			e.getMessage();
+		} finally {
+			mgr.close();
+			
+		}
+	}
+
+	/**
+	 * This method removes the entity with primary key id.
+	 * It uses HTTP DELETE method.
+	 *
+	 * @param id the primary key of the entity to be deleted.
+	 */
 	@ApiMethod(name = "removeTask")
 	public void removeTask(@Named("id") Long id) {
 		EntityManager mgr = getEntityManager();

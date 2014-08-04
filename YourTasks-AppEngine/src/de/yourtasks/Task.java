@@ -13,6 +13,7 @@ public class Task {
 	private String name;
 	private Integer prio;
 	private Date completed;
+	private Long parentTaskId;
 	private Long projectId;
 	private String description;
 	
@@ -51,5 +52,11 @@ public class Task {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Long getParentTaskId() {
+		return parentTaskId;
+	}
+	public void setParentTaskId(Long parentTaskId) {
+		this.parentTaskId = parentTaskId;
 	}
 }

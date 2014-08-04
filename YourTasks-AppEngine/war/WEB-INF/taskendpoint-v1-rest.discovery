@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"FWXGb4Q2eZqWRcG8B2Ixrr-vrqQ/q70tWdVIJqoA_42Ijz9dNI0hzL0\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/cNsRM5xlRnfQ-LkcZ0W43YnrfJ0\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -106,6 +106,10 @@
     "name": {
      "type": "string"
     },
+    "parentTaskId": {
+     "type": "string",
+     "format": "int64"
+    },
     "prio": {
      "type": "integer",
      "format": "int32"
@@ -118,6 +122,44 @@
   }
  },
  "methods": {
+  "convertModel": {
+   "id": "taskendpoint.convertModel",
+   "path": "convertModel/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "convertProjects": {
+   "id": "taskendpoint.convertProjects",
+   "path": "convertProjects/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "getTask": {
    "id": "taskendpoint.getTask",
    "path": "task/{id}",

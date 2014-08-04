@@ -10,7 +10,9 @@ import java.util.Map;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -28,6 +30,8 @@ public class TaskService {
 	public static final String NAME = "name", PRIO = "prio", DESCRIPTION = "description";
 
 	protected static final String FILENAME = "tasks.txt";
+
+	protected static final String LOG_TAG = TaskService.class.getSimpleName();
 	
 	public static String TASK_ID_PARAM = "taskId";
 	
@@ -64,13 +68,18 @@ public class TaskService {
 				@Override
 				protected List<Task> doInBackground(Void... params) {
 						try {
+//							getEndpoint().convertProjects(projectId).execute();
+							
 							ListTask lt = getEndpoint().listTask();
 							lt.setProjectId(projectId);
 							lt.setWithCompleted(withCompleted);
 							List<Task> val = lt.execute().getItems();
+//							for (Task task : val) {
+////								getEndpoint().convertModel(task.getId()).execute();
+//							}
 							if (val != null) return val;
 						} catch (IOException e) {
-							Log.e("TaskListActivity", "Error during loading tasks", e);
+							Log.e(LOG_TAG, "Error during loading tasks", e);
 							e.printStackTrace();
 						}
 					return Collections.emptyList();
@@ -78,16 +87,25 @@ public class TaskService {
 	
 				@Override
 				protected void onPostExecute(List<Task> result) {
-					Log.d("TaskListActivity", "tasks loaded " + result.size());
+					Log.d(LOG_TAG, "tasks loaded " + result.size());
 					taskList.clear();
 					taskList.addAll(result);
 					if (context != null) {
-						String filePath = context.getFilesDir().getPath().toString() + "/" + FILENAME;
-						LocalTaskPersistence localPersister = new LocalTaskPersistence(new AndroidJsonFactory(), new File(filePath));
+//						String filePath = context.getFilesDir().getPath().toString() + "/" + FILENAME;
+						File dir = context.getExternalFilesDir(null);
+						if (!dir.mkdirs()) {
+							Log.e(LOG_TAG, "Directory not created");
+						}
+						File file = new File(dir, FILENAME); 
+
+						LocalTaskPersistence localPersister = new LocalTaskPersistence(new AndroidJsonFactory()
+								, file);
 						try {
 							localPersister.saveTasks(result);
+							Log.i(LOG_TAG, "tasks saved localy " + file.getAbsolutePath());
+							Toast.makeText(context, "tasks saved localy " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
 						} catch (IOException e) {
-							Log.e(TaskService.class.getSimpleName(), "localSave fehlgeschlagen", e);
+							Log.e(LOG_TAG, "localSave fehlgeschlagen", e);
 							e.printStackTrace();
 						}
 					}
@@ -125,7 +143,7 @@ public class TaskService {
 				try {
 					return getEndpoint().insertTask(t).execute();
 				} catch (IOException e) {
-					Log.e("TaskListActivity", "Error during inserting task: " + t, e);
+					Log.e(LOG_TAG, "Error during inserting task: " + t, e);
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
@@ -142,7 +160,7 @@ public class TaskService {
 						try {
 							return getEndpoint().removeTask(t.getId()).execute();
 						} catch (IOException e) {
-							Log.e("TaskListActivity", "Error during removing task: " + t, e);
+							Log.e(LOG_TAG, "Error during removing task: " + t, e);
 							e.printStackTrace();
 							throw new RuntimeException(e);
 						}
@@ -161,7 +179,7 @@ public class TaskService {
 				try {
 					return getEndpoint().updateTask(t).execute();
 				} catch (IOException e) {
-					Log.e("TaskListActivity", "Error during loading tasks", e);
+					Log.e(LOG_TAG, "Error during loading tasks", e);
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
