@@ -68,15 +68,15 @@ public class TaskService {
 				@Override
 				protected List<Task> doInBackground(Void... params) {
 						try {
-//							getEndpoint().convertProjects(projectId).execute();
+							getEndpoint().convertProjects(projectId).execute();
 							
 							ListTask lt = getEndpoint().listTask();
 							lt.setProjectId(projectId);
 							lt.setWithCompleted(withCompleted);
 							List<Task> val = lt.execute().getItems();
-							for (Task task : val) {
-								getEndpoint().convertModel(task.getId()).execute();
-							}
+//							for (Task task : val) {
+//								getEndpoint().convertModel(task.getId()).execute();
+//							}
 							if (val != null) return val;
 						} catch (IOException e) {
 							Log.e(LOG_TAG, "Error during loading tasks", e);
