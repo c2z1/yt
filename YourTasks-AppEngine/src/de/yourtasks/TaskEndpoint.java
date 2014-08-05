@@ -214,6 +214,7 @@ public class TaskEndpoint {
 				t.setId(project.getId() + 1);
 				t.setName(project.getName());
 				t.setPrio(3);
+				t.setParentTaskId(6666666666666666l);
 				mgr.persist(t);
 			}
 		} catch (Exception e) {

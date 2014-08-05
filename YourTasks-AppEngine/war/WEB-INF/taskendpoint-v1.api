@@ -121,6 +121,27 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "taskendpoint.convertProjects" : {
+      "path" : "convertProjects/{id}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.convertProjects",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "taskendpoint.listTask" : {
       "path" : "task",
       "httpMethod" : "GET",
@@ -152,27 +173,6 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "taskendpoint.convertProjects" : {
-      "path" : "convertProjects/{id}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "de.yourtasks.TaskEndpoint.convertProjects",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
       }
     }
   },
@@ -251,12 +251,12 @@
           "$ref" : "Task"
         }
       },
+      "de.yourtasks.TaskEndpoint.convertProjects" : {
+      },
       "de.yourtasks.TaskEndpoint.listTask" : {
         "response" : {
           "$ref" : "CollectionResponse_Task"
         }
-      },
-      "de.yourtasks.TaskEndpoint.convertProjects" : {
       }
     }
   }
