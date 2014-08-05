@@ -23,17 +23,16 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/hint_name"
-            android:inputType="none" >
-
-            <requestFocus />
+            android:inputType="text" >
         </EditText>
 
-        <Button
+        <ImageButton
             android:id="@+id/button_expand"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/arrow_down_float" />
+            android:src="@android:drawable/arrow_down_float"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
 </LinearLayout>

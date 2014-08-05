@@ -90,7 +90,7 @@ public abstract class TaskAdapter extends ArrayAdapter<Task> {
 	public View getView(int position, final View convertView, final ViewGroup parent) {
 		final Task tmpTask = getItem(position);
 		return (task == tmpTask) 
-				? TaskDetailView.creatTaskDetailView(getContext(), service, parent, task)
+				? TaskDetailView.creatTaskDetailView(getContext(), service, parent, task, getCount() <= 1)
 //				? TaskDetailViewFactory.creatTaskDetailView(getContext(), service, parent, task)
 //						? getTaskDetailView(tmpTask, convertView, parent)
 				: getTaskListEntryView(tmpTask, convertView, parent);

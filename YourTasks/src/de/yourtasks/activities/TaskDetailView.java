@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import de.yourtasks.R;
 import de.yourtasks.model.Tasks;
@@ -19,8 +20,12 @@ public class TaskDetailView {
 	private View detailView;
 	private LayoutInflater inflater;
 	private boolean expanded;
+	private Tasks taskService;
+	private Context context;
 
-	private TaskDetailView(Context context, Tasks service, ViewGroup parent, Task task) {
+	private TaskDetailView(Context context, Tasks service, ViewGroup parent, Task task, boolean expanded) {
+		this.context = context;
+		this.taskService = service;
 		this.task = task;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -34,10 +39,13 @@ public class TaskDetailView {
 			view.setVisibility(View.VISIBLE);
 			initFields();
 		}
+		if (expanded) {
+			toggleExpand();
+		}
 	}
 	
-	public static View creatTaskDetailView(Context context, Tasks service, ViewGroup parent, Task task) {
-		return new TaskDetailView(context, service, parent, task).getView();
+	public static View creatTaskDetailView(Context context, Tasks service, ViewGroup parent, Task task, boolean expanded) {
+		return new TaskDetailView(context, service, parent, task, expanded).getView();
 	}
 
 	private View getView() {
@@ -45,8 +53,10 @@ public class TaskDetailView {
 	}
 	
 	private void toggleExpand() {
+//		ImageButton btn = ((ImageButton) view.findViewById(R.id.button_expand));
 		if (!expanded) {
 			containerView.addView(detailView);
+//			btn.setImageResource(AndrR..drawable."@android:drawable/arrow_up_float");
 			expanded = true;
 		} else {
 			containerView.removeView(detailView);
@@ -55,7 +65,15 @@ public class TaskDetailView {
 	}
 
 	private void initFields() {
-		UIService.bind((EditText) view.findViewById(R.id.editName), task, Tasks.NAME);
+		EditText nameEdit = (EditText) view.findViewById(R.id.editName);
+		UIService.bind(nameEdit, task, Tasks.NAME);
+		
+		if (taskService.isCreated(task)) {
+			nameEdit.requestFocus();
+			InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.showSoftInput(nameEdit, InputMethodManager.SHOW_FORCED);
+		}
+		
 		
 		view.findViewById(R.id.button_expand).setOnClickListener(new OnClickListener() {
 			@Override
@@ -63,7 +81,7 @@ public class TaskDetailView {
 				toggleExpand();
 			}
 		});
-
+		
 		detailView = inflater.inflate(R.layout.task_details_details, containerView, false);
 		UIService.bind((EditText) detailView.findViewById(R.id.editPrio), task, Tasks.PRIO);
 		UIService.bind((EditText) detailView.findViewById(R.id.editDescription), task, Tasks.DESCRIPTION);

@@ -299,4 +299,8 @@ public class Tasks {
 	public boolean isDefaultTask(Task task) {
 		return task.getId() == DEFAULT_TASK_ID;
 	}
+
+	public boolean isCreated(Task task) {
+		return createdTasks.contains(task);
+	}
 }

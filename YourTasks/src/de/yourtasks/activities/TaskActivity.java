@@ -49,6 +49,7 @@ public class TaskActivity extends Activity {
 		} else if (getIntent().hasExtra(Tasks.TASK_PARENT_ID_PARAM)) {
 			Long parentId = getIntent().getLongExtra(Tasks.TASK_PARENT_ID_PARAM, -1);
 			task = taskService.createChildTask(parentId);
+			
 		} else {
 			task = taskService.getTask(Tasks.DEFAULT_TASK_ID);
 			if (task == null) {
@@ -57,20 +58,19 @@ public class TaskActivity extends Activity {
 		}
 		assert task != null;
 		
-		initRefresh();
+		initSwipeToRefresh();
 		
 		initActionBar();
 		
 		initList();
 	}
 	
-	private void initRefresh() {
+	private void initSwipeToRefresh() {
         final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
         swipeLayout.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//            	swipeLayout.setRefreshing(true);
                 reload(new Runnable() {
 					@Override
 					public void run() {
@@ -122,8 +122,6 @@ public class TaskActivity extends Activity {
 					return tv;
 				}
 			};
-		
-//		spinnerAdapter.
 		
 			
 		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
