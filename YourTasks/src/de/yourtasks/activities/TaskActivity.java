@@ -125,9 +125,7 @@ public class TaskActivity extends Activity {
 		
 //		spinnerAdapter.
 		
-		
-		actionBar.show();
-
+			
 		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
@@ -138,6 +136,11 @@ public class TaskActivity extends Activity {
 				return true;
 			}
 		});
+		
+		actionBar.setSelectedNavigationItem(spinnerAdapter.getPosition(task));
+
+		actionBar.show();
+
 	}
 
 	private void initList() {
