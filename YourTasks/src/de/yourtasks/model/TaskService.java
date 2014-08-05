@@ -74,9 +74,9 @@ public class TaskService {
 							lt.setProjectId(projectId);
 							lt.setWithCompleted(withCompleted);
 							List<Task> val = lt.execute().getItems();
-//							for (Task task : val) {
-////								getEndpoint().convertModel(task.getId()).execute();
-//							}
+							for (Task task : val) {
+								getEndpoint().convertModel(task.getId()).execute();
+							}
 							if (val != null) return val;
 						} catch (IOException e) {
 							Log.e(LOG_TAG, "Error during loading tasks", e);
