@@ -42,7 +42,7 @@ public class Tasks {
 	
 	private List<Task> createdTasks = Collections.synchronizedList(new ArrayList<Task>());
 	
-	private static boolean local = true;
+	private static boolean local = false;
 	
 	private static Tasks instance;
 	private Context applContext;
@@ -278,12 +278,14 @@ public class Tasks {
 				protected void onPostExecute(List<Task> result) {
 					Log.d("TaskListActivity", "tasks loaded " + result.size());
 					Collection<Task> oldChilds = parentTaskMap.put(id, new ArrayList<Task>(result));
-					oldChilds.removeAll(result);
+					if (oldChilds != null) {
+						oldChilds.removeAll(result);
+						for (Task deletedTask : oldChilds) {
+							taskMap.remove(deletedTask.getId());
+						}
+					}
 					for (Task task : result) {
 						taskMap.put(task.getId(), task);
-					}
-					for (Task deletedTask : oldChilds) {
-						taskMap.remove(deletedTask.getId());
 					}
 					fireDataChanged();
 					postExecution.run();

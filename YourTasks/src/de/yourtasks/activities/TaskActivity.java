@@ -116,25 +116,28 @@ public class TaskActivity extends Activity {
 					return tv;
 				}
 				@Override
-					public View getDropDownView(int position, View convertView, ViewGroup parent) {
-						View tv = getView(position, convertView, parent);
-						tv.setPadding(20, 20, 20, 20);
-						return tv;
-					}
+				public View getDropDownView(int position, View convertView, ViewGroup parent) {
+					View tv = getView(position, convertView, parent);
+					tv.setPadding(20, 20, 20, 20);
+					return tv;
+				}
 			};
 		
+//		spinnerAdapter.
+		
+		
+		actionBar.show();
+
 		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 				Task t = (Task) spinnerAdapter.getItem(itemPosition);
-				if (t!=task) {
+				if (t != task) {
 					startDetailsView(t);
 				}
 				return true;
 			}
 		});
-		
-		actionBar.show();
 	}
 
 	private void initList() {

@@ -2,7 +2,11 @@
 <datastore-indexes autoGenerate="true">
   <datastore-index kind="Task" ancestor="false" source="manual"> 
       <property name="completed" direction="asc"/> 
-      <property name="projectId" direction="asc"/> 
+      <property name="parentTaskId" direction="asc"/> 
+      <property name="prio" direction="asc"/> 
+  </datastore-index>
+  <datastore-index kind="Task" ancestor="false" source="manual"> 
+      <property name="parentTaskId" direction="asc"/> 
       <property name="prio" direction="asc"/> 
   </datastore-index>
 </datastore-indexes>
