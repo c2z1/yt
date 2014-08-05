@@ -174,7 +174,7 @@ public class TaskEndpoint {
 		EntityManager mgr = null;
 		try {
 			mgr = getEntityManager();
-			Query query = mgr.createQuery("select t from Task t where t.id = ':taskId");
+			Query query = mgr.createQuery("select t from Task t where t.id = :taskId");
 			
 			query.setParameter("taskId", id);  
 			
