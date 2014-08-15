@@ -25,6 +25,7 @@ import com.google.api.client.util.DateTime;
 import de.yourtasks.R;
 import de.yourtasks.model.Tasks;
 import de.yourtasks.taskendpoint.model.Task;
+import de.yourtasks.utils.Util;
 
 public abstract class TaskAdapter extends ArrayAdapter<Task> {
 
@@ -90,12 +91,15 @@ public abstract class TaskAdapter extends ArrayAdapter<Task> {
 	public View getView(int position, final View convertView, final ViewGroup parent) {
 		final Task tmpTask = getItem(position);
 		return (task == tmpTask) 
-				? TaskDetailView.creatTaskDetailView(getContext(), service, parent, task, getCount() <= 1)
-//				? TaskDetailViewFactory.creatTaskDetailView(getContext(), service, parent, task)
-//						? getTaskDetailView(tmpTask, convertView, parent)
+				? TaskDetailView.creatTaskDetailView(getContext(), service, parent, task, 
+						shouldDetailsExpand())
 				: getTaskListEntryView(tmpTask, convertView, parent);
 	}
 	
+	private boolean shouldDetailsExpand() {
+		return getCount() <= 1 || (!Util.isEmpty(task.getDescription()) && getCount() < 3);
+	}
+
 	private static Object LIST_ENTRY_TAG = new Object();
 	
 	private View getTaskListEntryView(final Task task, final View convertView, final ViewGroup parent) {

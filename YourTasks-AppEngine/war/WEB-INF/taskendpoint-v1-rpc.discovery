@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/lgJIOvk6KCE0xBY3z1bXAB26ApI\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/Px3aB51ZjyOYcFCoKS0mn2Os_gQ\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -111,10 +111,6 @@
     "prio": {
      "type": "integer",
      "format": "int32"
-    },
-    "projectId": {
-     "type": "string",
-     "format": "int64"
     }
    }
   }

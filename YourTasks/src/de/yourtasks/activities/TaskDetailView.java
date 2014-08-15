@@ -89,13 +89,13 @@ public class TaskDetailView {
 		detailView.findViewById(R.id.upPrioButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addToPrio(task, -1, v);
+				addToPrio(task, -1, view);
 			}
 		});
 		detailView.findViewById(R.id.downPrioButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addToPrio(task, +1, v);
+				addToPrio(task, +1, view);
 			}
 		});
 	}
