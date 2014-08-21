@@ -162,6 +162,9 @@ public class Tasks {
 	}
 	
 	public void removeTask(final Task t) {
+		for (Task subTask : getChildTasks(t)) {
+			removeTask(subTask);
+		}
 		if (!createdTasks.remove(t)) {
 			if (!local) {
 				new AsyncTask<Void, Void, Void>() {
@@ -181,6 +184,10 @@ public class Tasks {
 		taskMap.remove(t.getId());
 		parentTaskMap.get(t.getParentTaskId()).remove(t);
 		fireDataChanged();
+	}
+
+	public List<Task> getChildTasks(Task t) {
+		return getTasks(t.getId(), true);
 	}
 
 	private void updateTask(final Task t) {
