@@ -36,7 +36,8 @@
 
         <activity
             android:name="de.yourtasks.activities.TaskActivity"
-            android:label="@string/title_activity_task_details" >
+            android:label="@string/title_activity_task_details"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
     </application>
 
