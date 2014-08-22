@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 
 import de.yourtasks.taskendpoint.Taskendpoint;
+import de.yourtasks.taskendpoint.Taskendpoint.GetTask;
 import de.yourtasks.taskendpoint.Taskendpoint.ListTask;
 import de.yourtasks.taskendpoint.model.Task;
 import de.yourtasks.utils.DataChangeListener;
@@ -72,6 +74,12 @@ public class Tasks {
 				ret.add(task);
 			}
 		}
+		Collections.sort(ret, new Comparator<Task>() {
+			@Override
+			public int compare(Task lhs, Task rhs) {
+				return lhs.getPrio().compareTo(rhs.getPrio());
+			}
+		});
 		return ret;
 	}
 	
@@ -309,5 +317,9 @@ public class Tasks {
 
 	public boolean isCreated(Task task) {
 		return createdTasks.contains(task);
+	}
+
+	public Task getParent(Task task) {
+		return getTask(task.getParentTaskId());
 	}
 }

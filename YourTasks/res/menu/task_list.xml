@@ -5,6 +5,11 @@
           android:showAsAction="ifRoom" 
           android:title="@string/action_new"
           />
+    <item android:id="@+id/action_accept"
+          android:icon="@drawable/ic_cab_done_holo_light"
+          android:showAsAction="ifRoom" 
+          android:title="@string/action_accept"
+    	  />
     <group android:checkableBehavior="all">
         <item android:id="@+id/show_completed"
               android:title="@string/erledigt_anzeigen" />
@@ -13,5 +18,4 @@
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
           android:showAsAction="never" />
-
 </menu>

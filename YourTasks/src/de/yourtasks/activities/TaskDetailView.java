@@ -69,9 +69,14 @@ public class TaskDetailView {
 		UIService.bind(nameEdit, task, Tasks.NAME);
 		
 		if (taskService.isCreated(task)) {
-			nameEdit.requestFocus();
-			InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.showSoftInput(nameEdit, InputMethodManager.SHOW_FORCED);
+//			view.runOnUiThread(new Runnable() {
+//				@Override
+//				public void run() {
+					nameEdit.requestFocus();
+					InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.showSoftInput(nameEdit, InputMethodManager.SHOW_FORCED);
+//				}
+//			};
 		}
 		
 		

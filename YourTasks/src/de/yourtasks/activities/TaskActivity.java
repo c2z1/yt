@@ -23,7 +23,7 @@ import de.yourtasks.utils.DataChangeListener;
 
 public class TaskActivity extends Activity {
 
-	private Tasks taskService;
+	private Tasks tasks;
 	
 	private static final String LOG_TAG = TaskActivity.class.getSimpleName();
 	
@@ -32,7 +32,7 @@ public class TaskActivity extends Activity {
 	private Task task;
 	private DataChangeListener<Task> changeListener;
 
-	private ArrayList<Task> tasks = new ArrayList<Task>();
+	private ArrayList<Task> taskList = new ArrayList<Task>();
 
 	private TaskAdapter adapter;
 
@@ -40,20 +40,20 @@ public class TaskActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
 		
-		taskService = Tasks.getService(getApplicationContext());
+		tasks = Tasks.getService(getApplicationContext());
 		
 		if (getIntent().hasExtra(Tasks.TASK_ID_PARAM)) {
 			Long id = getIntent().getLongExtra(Tasks.TASK_ID_PARAM, -1);
 		
-			task = taskService.getTask(id);
+			task = tasks.getTask(id);
 		} else if (getIntent().hasExtra(Tasks.TASK_PARENT_ID_PARAM)) {
 			Long parentId = getIntent().getLongExtra(Tasks.TASK_PARENT_ID_PARAM, -1);
-			task = taskService.createChildTask(parentId);
+			task = tasks.createChildTask(parentId);
 			
 		} else {
-			task = taskService.getTask(Tasks.DEFAULT_TASK_ID);
+			task = tasks.getTask(Tasks.DEFAULT_TASK_ID);
 			if (task == null) {
-				task = taskService.createTask(Tasks.DEFAULT_TASK_ID);
+				task = tasks.createTask(Tasks.DEFAULT_TASK_ID);
 			}
 		}
 		assert task != null;
@@ -88,12 +88,18 @@ public class TaskActivity extends Activity {
 		refreshTaskList();
 	}
 	
+	@Override
+	public boolean onNavigateUp() {
+		startDetailsView(tasks.getParent(task));
+		return true;
+	}
+	
 	private void refreshTaskList() {
-		tasks.clear();
-		if (!taskService.isDefaultTask(task)) {
-			tasks.add(task);
+		taskList.clear();
+		if (!tasks.isDefaultTask(task)) {
+			taskList.add(task);
 		}
-		tasks.addAll(taskService.getTasks(task.getId(), showWithCompleted));
+		taskList.addAll(tasks.getTasks(task.getId(), showWithCompleted));
 		adapter.notifyDataSetChanged();
 	}
 	
@@ -107,7 +113,7 @@ public class TaskActivity extends Activity {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		
 		final ArrayAdapter<Task> spinnerAdapter = new ArrayAdapter<Task>(this, R.layout.menu_task_list_item, 
-						taskService.getTasks(task.getParentTaskId(), false)) {
+						tasks.getTasks(task.getParentTaskId(), false)) {
 				public View getView(int position, View convertView, ViewGroup parent) {
 					TextView tv = new TextView(getApplicationContext());
 					tv.setTextColor(getResources().getColor(android.R.color.black));
@@ -142,7 +148,7 @@ public class TaskActivity extends Activity {
 	}
 
 	private void initList() {
-		adapter = new TaskAdapter(this, taskService, this, taskService.isDefaultTask(task) ? null : task,  tasks) {
+		adapter = new TaskAdapter(this, tasks, this, tasks.isDefaultTask(task) ? null : task,  taskList) {
 					@Override
 					protected void startDetailsView(Task t) {
 						TaskActivity.this.startDetailsView(t);
@@ -159,7 +165,7 @@ public class TaskActivity extends Activity {
 				refreshTaskList();
 			}
 		};
-		taskService.addDataChangeListener(changeListener);
+		tasks.addDataChangeListener(changeListener);
 	}
 
 	private void startDetailsView(Task t) {
@@ -184,6 +190,8 @@ public class TaskActivity extends Activity {
 	        case R.id.action_new:
 	        	startDetailsView(null);
 	            return true;
+	        case R.id.action_accept:
+	        	ok();
 //	        case R.id.action_refresh:
 //	        	reload();
 //	            return true;
@@ -198,14 +206,19 @@ public class TaskActivity extends Activity {
 	}
 	
 	private void reload(Runnable postExecution) {
-		taskService.reloadTask(task.getId(), postExecution);
+		tasks.reloadTask(task.getId(), postExecution);
 	}
 
 	@Override
-	protected void onStop() {
-		taskService.removeDataChangeListener(changeListener);
-		taskService.saveAllTasksLocal();
-		super.onStop();
+	protected void onSaveInstanceState(Bundle outState) {
+		tasks.saveAllTasksLocal();
+		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		tasks.removeDataChangeListener(changeListener);
+		super.onDestroy();
 	}
 	
 	@Override
@@ -214,7 +227,7 @@ public class TaskActivity extends Activity {
 	}
 
 	private void ok() {
-		taskService.saveTask(task);
+		tasks.saveTask(task);
 		finish();
 	}
 }
