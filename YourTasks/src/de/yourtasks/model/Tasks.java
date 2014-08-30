@@ -22,12 +22,10 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 
 import de.yourtasks.taskendpoint.Taskendpoint;
-import de.yourtasks.taskendpoint.Taskendpoint.GetTask;
 import de.yourtasks.taskendpoint.Taskendpoint.ListTask;
 import de.yourtasks.taskendpoint.model.Task;
 import de.yourtasks.utils.DataChangeListener;
 import de.yourtasks.utils.IdCreator;
-import de.yourtasks.utils.Util;
 
 public class Tasks {
 
@@ -242,15 +240,11 @@ public class Tasks {
 	}
 
 	public void saveTask(Task task) {
-		if (Util.isEmpty(task.getName()) && Util.isEmpty(task.getDescription())) {
-			removeTask(task);
-		} else {
-			if (!local) {
-				if (createdTasks.remove(task)) {
-					insertTask(task);
-				} else {
-					updateTask(task);
-				}
+		if (!local) {
+			if (createdTasks.remove(task)) {
+				insertTask(task);
+			} else {
+				updateTask(task);
 			}
 		}
 		fireDataChanged();
