@@ -36,11 +36,20 @@ public class TaskActivity extends Activity {
 
 	private TaskAdapter adapter;
 
+	private long userTaskId = Tasks.DEFAULT_TASK_ID;
+
+	private SwipeRefreshLayout swipeLayout;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+//		initUserTaskId();
+		
 		setContentView(R.layout.activity_task_list);
 		
 		tasks = Tasks.getService(getApplicationContext());
+
+		initSwipeToRefresh();
 		
 		if (getIntent().hasExtra(Tasks.TASK_ID_PARAM)) {
 			Long id = getIntent().getLongExtra(Tasks.TASK_ID_PARAM, -1);
@@ -51,23 +60,45 @@ public class TaskActivity extends Activity {
 			task = tasks.createChildTask(parentId);
 			
 		} else {
-			task = tasks.getTask(Tasks.DEFAULT_TASK_ID);
+			task = tasks.getTask(getDefaultTaskId());
 			if (task == null) {
-				task = tasks.createTask(Tasks.DEFAULT_TASK_ID);
+				task = tasks.createTask(getDefaultTaskId());
+				tasks.saveTask(task);
 			}
+			swipeLayout.setRefreshing(true);
+			reload(new Runnable() {
+				@Override
+				public void run() {
+					Log.i(LOG_TAG, "end refreshing");
+					swipeLayout.setRefreshing(false);
+				}
+			});
 		}
 		assert task != null;
 		
-		initSwipeToRefresh();
 		
 		initActionBar();
 		
 		initList();
 	}
+
+//	private void initUserTaskId() {
+//		AccountManager am = AccountManager.get(getApplicationContext());
+//		Account[] acconts = am.getAccountsByType("com.google");
+//		
+//		if (acconts.length > 0) {
+//			userTaskId = acconts[0].name.hashCode();
+//			Log.i(LOG_TAG, acconts[0].name + " / " + acconts[0].type + " : " + acconts[0].name.hashCode());
+//		} 
+//	}
+
+	private long getDefaultTaskId() {
+		return userTaskId;
+	}
 	
 	private void initSwipeToRefresh() {
-        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
