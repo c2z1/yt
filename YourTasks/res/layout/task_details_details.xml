@@ -43,4 +43,16 @@
         android:layout_toRightOf="@+id/downPrioButton"
         android:src="@android:drawable/arrow_up_float"
         tools:ignore="ContentDescription" />
+    
+    <EditText
+        android:id="@+id/editRepeatingDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editDescription"
+        android:layout_alignRight="@+id/editDescription"
+        android:layout_marginTop="10dp"
+        android:width="120sp"
+        android:ems="10"
+        android:hint="@string/hint_repeating_days"
+        android:inputType="number" />
 </RelativeLayout>

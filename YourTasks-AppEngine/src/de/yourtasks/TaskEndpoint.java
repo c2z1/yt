@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 import javax.inject.Named;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
@@ -131,14 +131,22 @@ public class TaskEndpoint {
 	public Task insertTask(Task task) {
 		EntityManager mgr = getEntityManager();
 		try {
-			if (containsTask(task)) {
-				throw new EntityExistsException("Object already exists");
+			int i = 0;
+			while (containsTask(task) && i < 100) {
+				task.setId(createNewId());
+				i++;
 			}
 			mgr.persist(task);
 		} finally {
 			mgr.close();
 		}
 		return task;
+	}
+	
+	private long createNewId() {
+		long range = Long.MAX_VALUE;
+		Random r = new Random();
+		return (long)(r.nextDouble()*range);
 	}
 
 	/**

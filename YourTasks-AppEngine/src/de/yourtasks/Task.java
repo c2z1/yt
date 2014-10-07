@@ -15,6 +15,7 @@ public class Task {
 	private Date completed;
 	private Long parentTaskId;
 	private String description;
+	private Integer repeatIntervalDays;
 	
 	public Long getId() {
 		return id;
@@ -52,4 +53,11 @@ public class Task {
 	public void setParentTaskId(Long parentTaskId) {
 		this.parentTaskId = parentTaskId;
 	}
+	public Integer getRepeatIntervalDays() {
+		return repeatIntervalDays;
+	}
+	public void setRepeatIntervalDays(Integer repeatIntervalDays) {
+		this.repeatIntervalDays = repeatIntervalDays;
+	}
+	
 }

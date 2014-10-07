@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/Px3aB51ZjyOYcFCoKS0mn2Os_gQ\"",
+ "etag": "\"koCc_mmAOJe4d9CoedmJUnZeEcg/tRKIgNwXPn4Yt0A0H-BFHv_UFjk\"",
  "discoveryVersion": "v1",
  "id": "taskendpoint:v1",
  "name": "taskendpoint",
@@ -111,6 +111,10 @@
      "format": "int64"
     },
     "prio": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "repeatIntervalDays": {
      "type": "integer",
      "format": "int32"
     }

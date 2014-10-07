@@ -26,12 +26,14 @@ import de.yourtasks.taskendpoint.Taskendpoint.ListTask;
 import de.yourtasks.taskendpoint.model.Task;
 import de.yourtasks.utils.DataChangeListener;
 import de.yourtasks.utils.IdCreator;
+import de.yourtasks.utils.Util;
 
 public class Tasks {
 
 	private static final String FILENAME = "localTasks.txt";
 	
-	public static final String NAME = "name", PRIO = "prio", DESCRIPTION = "description";
+	public static final String NAME = "name", PRIO = "prio", DESCRIPTION = "description"
+			, REPEAT_INTERVAL_DAYS = "repeatIntervalDays";
 
 	public static final long DEFAULT_TASK_ID = 6666666666666666l;
 
@@ -81,6 +83,14 @@ public class Tasks {
 		return ret;
 	}
 	
+	private void handleRepeatingTask(Task task) {
+		if (task.getRepeatIntervalDays() != null && task.getCompleted() != null &&
+				Util.shouldRepeat(task.getCompleted(), task.getRepeatIntervalDays())) {
+			task.setCompleted(null);
+			saveTask(task);
+		}
+	}
+
 	private void init(Context context) {
 		applContext = context;
 		String filePath = context.getFilesDir().getPath().toString() + "/" + FILENAME;
@@ -93,39 +103,6 @@ public class Tasks {
 				AndroidHttp.newCompatibleTransport(), new GsonFactory(), null /* httpRequestInitializer */);
 		return builder.build();
 	}
-	
-//	public void loadTasks(final boolean withCompleted) {
-//		if (!local) {
-//			new AsyncTask<Void, Void, List<Task>>() {
-//				@Override
-//				protected List<Task> doInBackground(Void... params) {
-//						try {
-//							ListTask lt = getEndpoint().listTask();
-//							lt.setParentTaskId(parentTaskId);
-//							lt.setWithCompleted(withCompleted);
-//							List<Task> val = lt.execute().getItems();
-//							if (val != null) return val;
-//						} catch (IOException e) {
-//							Log.e("TaskListActivity", "Error during loading tasks", e);
-//							e.printStackTrace();
-//						}
-//					return Collections.emptyList();
-//				}
-//	
-//				@Override
-//				protected void onPostExecute(List<Task> result) {
-//					Log.d("TaskListActivity", "tasks loaded " + result.size());
-//					taskList.clear();
-//					taskList.addAll(result);
-//					fireDataChanged();
-//				}
-//			}.execute();
-//		} else {
-//			taskList.clear();
-//			createDummies();
-//			fireDataChanged();
-//		}
-//	}
 	
 	private void loadAllTasksLocal() {
 		Collection<Task> tasks;
@@ -162,6 +139,18 @@ public class Tasks {
 					Log.e("TaskListActivity", "Error during inserting task: " + t, e);
 					e.printStackTrace();
 					throw new RuntimeException(e);
+				}
+			}
+			@Override
+			protected void onPostExecute(Task result) {
+				super.onPostExecute(result);
+				if (!result.getId().equals(t.getId())) {
+					taskMap.remove(t.getId());
+					taskMap.put(result.getId(), result);
+					Collection<Task> coll = parentTaskMap.get(t.getParentTaskId());
+					coll.remove(t);
+					coll.add(result);
+					parentTaskMap.put(result.getParentTaskId(), coll);
 				}
 			}
 		}.execute();
@@ -294,6 +283,7 @@ public class Tasks {
 						}
 					}
 					for (Task task : result) {
+						handleRepeatingTask(task);
 						taskMap.put(task.getId(), task);
 					}
 					fireDataChanged();

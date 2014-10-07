@@ -90,6 +90,7 @@ public class TaskDetailView {
 		detailView = inflater.inflate(R.layout.task_details_details, containerView, false);
 		UIService.bind((EditText) detailView.findViewById(R.id.editPrio), task, Tasks.PRIO);
 		UIService.bind((EditText) detailView.findViewById(R.id.editDescription), task, Tasks.DESCRIPTION);
+		UIService.bind((EditText) detailView.findViewById(R.id.editRepeatingDays), task, Tasks.REPEAT_INTERVAL_DAYS);
 	
 		detailView.findViewById(R.id.upPrioButton).setOnClickListener(new OnClickListener() {
 			@Override

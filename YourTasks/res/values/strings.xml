@@ -30,5 +30,6 @@
     <string name="erledigt_anzeigen">Erledigte anzeigen</string>
     <string name="hint_name">Name</string>
     <string name="hint_description">Beschreibung</string>
+    <string name="hint_repeating_days">Tage (Wdh.)</string>
 
 </resources>
