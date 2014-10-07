@@ -98,6 +98,7 @@ public class TaskActivity extends Activity {
 	
 	private void initSwipeToRefresh() {
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+//        swipeLayout.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light);
         swipeLayout.setColorSchemeResources(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
