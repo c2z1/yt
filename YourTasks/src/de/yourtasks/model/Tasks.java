@@ -83,12 +83,26 @@ public class Tasks {
 		return ret;
 	}
 	
-	private void handleRepeatingTask(Task task) {
-		if (task.getRepeatIntervalDays() != null && task.getCompleted() != null &&
-				Util.shouldRepeat(task.getCompleted(), task.getRepeatIntervalDays())) {
-			task.setCompleted(null);
-			saveTask(task);
+	private void handleTask(Task task) {
+		if (isRepeating(task)) {
+			if (task.getCompleted() != null &&
+					Util.isDaysAfter(task.getCompleted(), task.getRepeatIntervalDays())) {
+				task.setCompleted(null);
+				saveTask(task);
+			}
+		} else {
+			if (isCompleted(task) && Util.isDaysAfter(task.getCompleted(), 7)) {
+				removeTask(task);
+			}
 		}
+	}
+
+	public static boolean isCompleted(Task task) {
+		return task.getCompleted() != null;
+	}
+
+	public boolean isRepeating(Task task) {
+		return task.getRepeatIntervalDays() != null;
 	}
 
 	private void init(Context context) {
@@ -283,7 +297,7 @@ public class Tasks {
 						}
 					}
 					for (Task task : result) {
-						handleRepeatingTask(task);
+						handleTask(task);
 						taskMap.put(task.getId(), task);
 					}
 					fireDataChanged();

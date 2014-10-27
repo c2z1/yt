@@ -11,22 +11,12 @@ public class Util {
 		return name == null || name.isEmpty();
 	}
 
-	public static boolean shouldRepeat(DateTime completedDate, Integer repeatIntervalDays) {
+	public static boolean isDaysAfter(DateTime date, Integer dayCount) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(completedDate.getValue());
-		cal.add(Calendar.DAY_OF_MONTH, repeatIntervalDays);
-		cal.set(Calendar.HOUR, 23);
-		cal.set(Calendar.MINUTE, 59);
-		boolean b = new Date().after(cal.getTime());
-		if (b) {
-			System.out.println("dkdk");
-			cal = Calendar.getInstance();
-			cal.setTimeInMillis(completedDate.getValue());
-			cal.add(Calendar.DAY_OF_MONTH, repeatIntervalDays);
-			cal.set(Calendar.HOUR, 23);
-			cal.set(Calendar.MINUTE, 59);
-			b = new Date().after(cal.getTime());
-		}
-		return b;
+		cal.setTimeInMillis(date.getValue());
+		cal.add(Calendar.DAY_OF_MONTH, dayCount);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		return new Date().after(cal.getTime());
 	}
 }
