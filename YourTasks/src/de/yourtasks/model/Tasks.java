@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 
+import de.yourtasks.R;
 import de.yourtasks.taskendpoint.Taskendpoint;
 import de.yourtasks.taskendpoint.Taskendpoint.ListTask;
 import de.yourtasks.taskendpoint.model.Task;
@@ -70,7 +72,8 @@ public class Tasks {
 		}
 		List<Task> ret = new ArrayList<Task>();
 		for (Task task : val) {
-			if (showWithCompleted || task.getCompleted() == null) {
+			if (showWithCompleted || task.getCompleted() == null 
+					|| !Util.isSecondsAfter(task.getCompleted(), 4)) {
 				ret.add(task);
 			}
 		}
@@ -88,7 +91,7 @@ public class Tasks {
 			if (task.getCompleted() != null &&
 					Util.isDaysAfter(task.getCompleted(), task.getRepeatIntervalDays())) {
 				task.setCompleted(null);
-				saveTask(task);
+				saveTask(task, null);
 			}
 		} else {
 			if (isCompleted(task) && Util.isDaysAfter(task.getCompleted(), 7)) {
@@ -199,8 +202,9 @@ public class Tasks {
 		return getTasks(t.getId(), true);
 	}
 
-	private void updateTask(final Task t) {
+	private void updateTask(final Task t, final Context ctx) {
 		new AsyncTask<Void, Void, Task>() {
+			private boolean error = false;
 			@Override
 			protected Task doInBackground(Void... params) {
 				try {
@@ -208,10 +212,22 @@ public class Tasks {
 				} catch (IOException e) {
 					Log.e("TaskListActivity", "Error during loading tasks", e);
 					e.printStackTrace();
-					throw new RuntimeException(e);
+					error = true;
+					return null;
+				}
+			}
+			protected void onPostExecute(Task result) {
+				if (error) {
+					createNoConnectionToast(ctx);
 				}
 			}
 		}.execute();
+	}
+
+	private static void createNoConnectionToast(Context ctx) {
+		if (ctx != null) {
+			Toast.makeText(ctx, R.string.no_connection, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public Task createChildTask(long parentTaskId) {
@@ -242,12 +258,12 @@ public class Tasks {
 		coll.add(t);
 	}
 
-	public void saveTask(Task task) {
+	public void saveTask(Task task, Context ctx) {
 		if (!local) {
 			if (createdTasks.remove(task)) {
 				insertTask(task);
 			} else {
-				updateTask(task);
+				updateTask(task, ctx);
 			}
 		}
 		fireDataChanged();
@@ -268,9 +284,10 @@ public class Tasks {
 		}
 	}
 
-	public void reloadTask(final Long id, final Runnable postExecution) {
+	public void reloadTask(final Long id, final Runnable postExecution, final Activity activity) {
 		if (!local) {
 			new AsyncTask<Void, Void, List<Task>>() {
+				boolean error = false;
 				@Override
 				protected List<Task> doInBackground(Void... params) {
 						try {
@@ -282,23 +299,28 @@ public class Tasks {
 						} catch (IOException e) {
 							Log.e("TaskListActivity", "Error during loading tasks", e);
 							e.printStackTrace();
+							error = true;
 						}
 					return Collections.emptyList();
 				}
 	
 				@Override
 				protected void onPostExecute(List<Task> result) {
-					Log.d("TaskListActivity", "tasks loaded " + result.size());
-					Collection<Task> oldChilds = parentTaskMap.put(id, new ArrayList<Task>(result));
-					if (oldChilds != null) {
-						oldChilds.removeAll(result);
-						for (Task deletedTask : oldChilds) {
-							taskMap.remove(deletedTask.getId());
+					if (!error) {
+						Log.d("TaskListActivity", "tasks loaded " + result.size());
+						Collection<Task> oldChilds = parentTaskMap.put(id, new ArrayList<Task>(result));
+						if (oldChilds != null) {
+							oldChilds.removeAll(result);
+							for (Task deletedTask : oldChilds) {
+								taskMap.remove(deletedTask.getId());
+							}
 						}
-					}
-					for (Task task : result) {
-						handleTask(task);
-						taskMap.put(task.getId(), task);
+						for (Task task : result) {
+							handleTask(task);
+							taskMap.put(task.getId(), task);
+						}
+					} else {
+						createNoConnectionToast(activity);
 					}
 					fireDataChanged();
 					postExecution.run();

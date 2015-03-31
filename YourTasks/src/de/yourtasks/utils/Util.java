@@ -19,4 +19,11 @@ public class Util {
 		cal.set(Calendar.MINUTE, 0);
 		return new Date().after(cal.getTime());
 	}
+	
+	public static boolean isSecondsAfter(DateTime date, Integer secCount) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(date.getValue());
+		cal.add(Calendar.SECOND, secCount);
+		return new Date().after(cal.getTime());
+	}
 }

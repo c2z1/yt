@@ -31,6 +31,8 @@ public class LocalTaskPersistence {
 			TaskList tl = new TaskList();
 			tl.list.addAll(tasks);
 			byte[] outputbytes = jsonFactory.toByteArray(tl);
+			
+			System.out.println(outputbytes);
 	
 			if (!file.exists()) {
 				file.createNewFile();

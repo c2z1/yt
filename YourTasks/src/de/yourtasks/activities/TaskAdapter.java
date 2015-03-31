@@ -2,10 +2,14 @@ package de.yourtasks.activities;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -163,8 +167,19 @@ public abstract class TaskAdapter extends ArrayAdapter<Task> {
 			public void onClick(View v) {
 				boolean checked = ((CheckBox) v).isChecked();
 				task.setCompleted(checked ? new DateTime(new Date()) : null);
-				service.saveTask(task);
+				service.saveTask(task, getContext());
 				notifyDataSetChanged();
+				
+				new Timer().schedule(new TimerTask() {
+						@Override
+						public void run() {
+							new Handler(Looper.getMainLooper()).post(new Runnable() {
+								public void run() {
+									service.fireDataChanged();
+								}
+							});
+						}
+					}, 5000);
 			}
 		});
 		

@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -37,7 +38,7 @@
         <activity
             android:name="de.yourtasks.activities.TaskActivity"
             android:label="@string/title_activity_task_details"
-            android:windowSoftInputMode="adjustPan" >
+		    >
         </activity>
     </application>
 

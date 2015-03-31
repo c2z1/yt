@@ -31,5 +31,6 @@
     <string name="hint_name">Name</string>
     <string name="hint_description">Beschreibung</string>
     <string name="hint_repeating_days">Tage (Wdh.)</string>
+    <string name="no_connection">Verbindung zum Server nicht möglich!!</string>
 
 </resources>

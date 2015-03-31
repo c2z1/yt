@@ -63,7 +63,7 @@ public class TaskActivity extends Activity {
 			task = tasks.getTask(getDefaultTaskId());
 			if (task == null) {
 				task = tasks.createTask(getDefaultTaskId());
-				tasks.saveTask(task);
+				tasks.saveTask(task, this);
 			}
 			swipeLayout.setRefreshing(true);
 			reload(new Runnable() {
@@ -238,7 +238,7 @@ public class TaskActivity extends Activity {
 	}
 	
 	private void reload(Runnable postExecution) {
-		tasks.reloadTask(task.getId(), postExecution);
+		tasks.reloadTask(task.getId(), postExecution, this);
 	}
 
 	@Override
@@ -259,7 +259,7 @@ public class TaskActivity extends Activity {
 	}
 
 	private void ok() {
-		tasks.saveTask(task);
+		tasks.saveTask(task, this);
 		finish();
 	}
 }
