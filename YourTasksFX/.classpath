@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="src" path="taskendpoint-v1-generated-source"/>
+	<classpathentry kind="lib" path="libs/gcm.jar"/>
+	<classpathentry kind="lib" path="libs/google-api-client-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/google-api-client-android-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/google-http-client-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/google-http-client-android-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/google-http-client-gson-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/google-http-client-jackson2-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/google-http-client-jdo-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/google-oauth-client-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.1.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-core-2.1.3.jar"/>
+	<classpathentry kind="lib" path="libs/jsr305-1.3.9.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
