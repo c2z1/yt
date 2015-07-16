@@ -179,7 +179,7 @@ public abstract class TaskAdapter extends ArrayAdapter<Task> {
 								}
 							});
 						}
-					}, 5000);
+					}, 15000);
 			}
 		});
 		
