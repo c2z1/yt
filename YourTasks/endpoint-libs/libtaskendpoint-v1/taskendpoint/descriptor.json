@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/taskendpoint/v1/20141007192017/java/1.18.0-rc/yourtasks.de-taskendpoint-v1-20141007192017-java-1.18.0-rc-sources.jar", 
-      "path": "yourtasks.de-taskendpoint-v1-20141007192017-java-1.18.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/taskendpoint/v1/20150830142726/java/1.18.0-rc/yourtasks.de-taskendpoint-v1-20150830142726-java-1.18.0-rc-sources.jar", 
+      "path": "yourtasks.de-taskendpoint-v1-20150830142726-java-1.18.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2014-10-07 19:20"
+      "timestamp": "2015-08-30 14:27"
     }, 
     {
-      "path": "yourtasks.de-taskendpoint-v1-20141007192017-java-1.18.0-rc.jar.properties", 
+      "path": "yourtasks.de-taskendpoint-v1-20150830142726-java-1.18.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -674,5 +674,5 @@
   "version": "v1", 
   "language_version": "1.18.0-rc", 
   "id": "taskendpoint:v1", 
-  "revision": 20141007192017
+  "revision": 20150830142726
 }

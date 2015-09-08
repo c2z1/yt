@@ -5,16 +5,19 @@ import java.util.ArrayList;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import de.yourtasks.R;
 import de.yourtasks.model.Tasks;
@@ -34,11 +37,13 @@ public class TaskActivity extends Activity {
 
 	private ArrayList<Task> taskList = new ArrayList<Task>();
 
-	private TaskAdapter adapter;
+//	private TaskAdapterOld adapter;
 
 	private long userTaskId = Tasks.DEFAULT_TASK_ID;
 
 	private SwipeRefreshLayout swipeLayout;
+
+	private TaskAdapter adapter;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +53,8 @@ public class TaskActivity extends Activity {
 		setContentView(R.layout.activity_task_list);
 		
 		tasks = Tasks.getService(getApplicationContext());
+		
+		registerReceiver(new ScreenReceiver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
 
 		initSwipeToRefresh();
 		
@@ -65,17 +72,8 @@ public class TaskActivity extends Activity {
 				task = tasks.createTask(getDefaultTaskId());
 				tasks.saveTask(task, this);
 			}
-			swipeLayout.setRefreshing(true);
-			reload(new Runnable() {
-				@Override
-				public void run() {
-					Log.i(LOG_TAG, "end refreshing");
-					swipeLayout.setRefreshing(false);
-				}
-			});
 		}
 		assert task != null;
-		
 		
 		initActionBar();
 		
@@ -122,15 +120,13 @@ public class TaskActivity extends Activity {
 	
 	@Override
 	public boolean onNavigateUp() {
-		startDetailsView(tasks.getParent(task));
+		startActivity(createOpenIntent(this, tasks.getParent(task)));
 		return true;
 	}
 	
 	private void refreshTaskList() {
 		taskList.clear();
-		if (!tasks.isDefaultTask(task)) {
-			taskList.add(task);
-		}
+		taskList.add(task);
 		taskList.addAll(tasks.getTasks(task.getId(), showWithCompleted));
 		adapter.notifyDataSetChanged();
 	}
@@ -167,7 +163,7 @@ public class TaskActivity extends Activity {
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 				Task t = (Task) spinnerAdapter.getItem(itemPosition);
 				if (t != task) {
-					startDetailsView(t);
+					startActivity(createOpenIntent(TaskActivity.this, t));
 				}
 				return true;
 			}
@@ -180,17 +176,11 @@ public class TaskActivity extends Activity {
 	}
 
 	private void initList() {
-		adapter = new TaskAdapter(this, tasks, this, tasks.isDefaultTask(task) ? null : task,  taskList) {
-					@Override
-					protected void startDetailsView(Task t) {
-						TaskActivity.this.startDetailsView(t);
-					}
-				};
-					
-		ListView listView = ((ListView) findViewById(R.id.taskListView));
-		listView.setAdapter(adapter);
-		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		
+		RecyclerView recyclerView = ((RecyclerView) findViewById(R.id.taskListView));
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
+		adapter = new TaskAdapter(taskList, tasks);
+		recyclerView.setAdapter(adapter);
 		changeListener = new DataChangeListener<Task>() {
 			@Override
 			public void dataChanged() {
@@ -198,16 +188,6 @@ public class TaskActivity extends Activity {
 			}
 		};
 		tasks.addDataChangeListener(changeListener);
-	}
-
-	private void startDetailsView(Task t) {
-		Intent intent = new Intent(this, TaskActivity.class);
-		if (t == null) {
-			intent.putExtra(Tasks.TASK_PARENT_ID_PARAM, task.getId());
-		} else {
-			intent.putExtra(Tasks.TASK_ID_PARAM, t.getId());
-		}
-		startActivity(intent);
 	}
 	
 	@Override
@@ -220,7 +200,7 @@ public class TaskActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	        case R.id.action_new:
-	        	startDetailsView(null);
+	        	startActivity(createNewIntent(this, task));
 	            return true;
 	        case R.id.action_accept:
 	        	ok();
@@ -261,5 +241,16 @@ public class TaskActivity extends Activity {
 	private void ok() {
 		tasks.saveTask(task, this);
 		finish();
+	}
+
+	public static Intent createNewIntent(Context ctx, Task parent) {
+		Intent intent = new Intent(ctx, TaskActivity.class);
+		intent.putExtra(Tasks.TASK_PARENT_ID_PARAM, parent.getId());
+		return intent;
+	}
+	public static Intent createOpenIntent(Context ctx, Task task) {
+		Intent intent = new Intent(ctx, TaskActivity.class);
+		intent.putExtra(Tasks.TASK_ID_PARAM, task == null ? Tasks.DEFAULT_TASK_ID : task.getId());
+		return intent;
 	}
 }

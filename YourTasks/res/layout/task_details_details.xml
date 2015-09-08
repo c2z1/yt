@@ -13,7 +13,8 @@
         android:gravity="top"
         android:hint="@string/hint_description"
         android:inputType="textMultiLine"
-        android:lines="2" />
+        android:minLines="3"
+        android:maxLines="20" />
 
     <EditText
         android:id="@+id/editPrio"

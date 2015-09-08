@@ -45,13 +45,9 @@ public class TaskDetailView {
 	}
 	
 	public static View creatTaskDetailView(Context context, Tasks service, ViewGroup parent, Task task, boolean expanded) {
-		return new TaskDetailView(context, service, parent, task, expanded).getView();
+		return new TaskDetailView(context, service, parent, task, expanded).view;
 	}
 
-	private View getView() {
-		return view;
-	}
-	
 	private void toggleExpand() {
 //		ImageButton btn = ((ImageButton) view.findViewById(R.id.button_expand));
 		if (!expanded) {
@@ -69,16 +65,10 @@ public class TaskDetailView {
 		UIService.bind(nameEdit, task, Tasks.NAME);
 		
 		if (taskService.isCreated(task)) {
-//			view.runOnUiThread(new Runnable() {
-//				@Override
-//				public void run() {
-					nameEdit.requestFocus();
-					InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.showSoftInput(nameEdit, InputMethodManager.SHOW_FORCED);
-//				}
-//			};
+			nameEdit.requestFocus();
+			InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.showSoftInput(nameEdit, InputMethodManager.SHOW_FORCED);
 		}
-		
 		
 		view.findViewById(R.id.button_expand).setOnClickListener(new OnClickListener() {
 			@Override
@@ -106,11 +96,7 @@ public class TaskDetailView {
 		});
 	}
 
-
-
 	private static void addToPrio(Task task, int i, View view) {
 		((EditText) view.findViewById(R.id.editPrio)).setText("" + (task.getPrio() + i));
 	}
-	
-//	protected abstract void layoutchanged();
 }

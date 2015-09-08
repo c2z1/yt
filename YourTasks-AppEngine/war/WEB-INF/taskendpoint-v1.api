@@ -26,80 +26,6 @@
   "ownerDomain" : "yourtasks.de",
   "ownerName" : "yourtasks.de",
   "methods" : {
-    "taskendpoint.insertTask" : {
-      "path" : "task",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "de.yourtasks.TaskEndpoint.insertTask",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "taskendpoint.removeTask" : {
-      "path" : "task/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "de.yourtasks.TaskEndpoint.removeTask",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "taskendpoint.getTask" : {
-      "path" : "task/{id}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "de.yourtasks.TaskEndpoint.getTask",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "taskendpoint.updateTask" : {
-      "path" : "task",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "de.yourtasks.TaskEndpoint.updateTask",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "taskendpoint.listTask" : {
       "path" : "list_task",
       "httpMethod" : "GET",
@@ -132,10 +58,99 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+    },
+    "taskendpoint.insertTask" : {
+      "path" : "task",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.insertTask",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.updateTask" : {
+      "path" : "task",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.updateTask",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.getTask" : {
+      "path" : "task/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.getTask",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.removeTask" : {
+      "path" : "task/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "de.yourtasks.TaskEndpoint.removeTask",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
     }
   },
   "descriptor" : {
     "schemas" : {
+      "CollectionResponse_Task" : {
+        "id" : "CollectionResponse_Task",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Task"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
       "Task" : {
         "id" : "Task",
         "type" : "object",
@@ -165,35 +180,18 @@
             "type" : "integer"
           }
         }
-      },
-      "CollectionResponse_Task" : {
-        "id" : "CollectionResponse_Task",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Task"
-            }
-          },
-          "nextPageToken" : {
-            "type" : "string"
-          }
-        }
       }
     },
     "methods" : {
+      "de.yourtasks.TaskEndpoint.listTask" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Task"
+        }
+      },
       "de.yourtasks.TaskEndpoint.insertTask" : {
         "request" : {
           "$ref" : "Task"
         },
-        "response" : {
-          "$ref" : "Task"
-        }
-      },
-      "de.yourtasks.TaskEndpoint.removeTask" : {
-      },
-      "de.yourtasks.TaskEndpoint.getTask" : {
         "response" : {
           "$ref" : "Task"
         }
@@ -206,10 +204,12 @@
           "$ref" : "Task"
         }
       },
-      "de.yourtasks.TaskEndpoint.listTask" : {
+      "de.yourtasks.TaskEndpoint.getTask" : {
         "response" : {
-          "$ref" : "CollectionResponse_Task"
+          "$ref" : "Task"
         }
+      },
+      "de.yourtasks.TaskEndpoint.removeTask" : {
       }
     }
   }
