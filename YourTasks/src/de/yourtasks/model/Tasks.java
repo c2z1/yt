@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,15 +66,15 @@ public class Tasks {
 		return taskMap.get(taskId);
 	}
 	
-	public List<Task> getTasks(Long parentTaskId, boolean showWithCompleted) {
+	public List<Task> getTasks(Long parentTaskId, Date completedSince) {
 		Collection<Task> val = parentTaskMap.get(parentTaskId);
 		if (val == null) {
 			return Collections.<Task>emptyList();
 		}
 		List<Task> ret = new ArrayList<Task>();
 		for (Task task : val) {
-			if (showWithCompleted || task.getCompleted() == null 
-					|| !Util.isSecondsAfter(task.getCompleted(), 4)) {
+			if (task.getCompleted() == null || completedSince == null
+					|| !new Date(task.getCompleted().getValue()).before(completedSince)) {
 				ret.add(task);
 			}
 		}
@@ -199,7 +200,7 @@ public class Tasks {
 	}
 
 	public List<Task> getChildTasks(Task t) {
-		return getTasks(t.getId(), true);
+		return getTasks(t.getId(), null);
 	}
 
 	private void updateTask(final Task t, final Context ctx) {

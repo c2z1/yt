@@ -1,6 +1,7 @@
 package de.yourtasks.activities;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
@@ -37,24 +38,27 @@ public class TaskActivity extends Activity {
 
 	private ArrayList<Task> taskList = new ArrayList<Task>();
 
-//	private TaskAdapterOld adapter;
-
 	private long userTaskId = Tasks.DEFAULT_TASK_ID;
 
 	private SwipeRefreshLayout swipeLayout;
 
 	private TaskAdapter adapter;
+	
+	private Date completedSince = new Date();
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-//		initUserTaskId();
 		
 		setContentView(R.layout.activity_task_list);
 		
 		tasks = Tasks.getService(getApplicationContext());
 		
-		registerReceiver(new ScreenReceiver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
+		registerReceiver(new ScreenReceiver(new Runnable() {
+					@Override
+					public void run() {
+						completedSince = new Date();
+					}
+				}), new IntentFilter(Intent.ACTION_SCREEN_ON));
 
 		initSwipeToRefresh();
 		
@@ -96,11 +100,11 @@ public class TaskActivity extends Activity {
 	
 	private void initSwipeToRefresh() {
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-//        swipeLayout.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light);
         swipeLayout.setColorSchemeResources(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+            	completedSince = new Date();
                 reload(new Runnable() {
 					@Override
 					public void run() {
@@ -127,7 +131,7 @@ public class TaskActivity extends Activity {
 	private void refreshTaskList() {
 		taskList.clear();
 		taskList.add(task);
-		taskList.addAll(tasks.getTasks(task.getId(), showWithCompleted));
+		taskList.addAll(tasks.getTasks(task.getId(), completedSince));
 		adapter.notifyDataSetChanged();
 	}
 	
@@ -141,7 +145,7 @@ public class TaskActivity extends Activity {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		
 		final ArrayAdapter<Task> spinnerAdapter = new ArrayAdapter<Task>(this, R.layout.menu_task_list_item, 
-						tasks.getTasks(task.getParentTaskId(), false)) {
+						tasks.getTasks(task.getParentTaskId(), completedSince)) {
 				public View getView(int position, View convertView, ViewGroup parent) {
 					TextView tv = new TextView(getApplicationContext());
 					tv.setTextColor(getResources().getColor(android.R.color.black));
@@ -210,6 +214,7 @@ public class TaskActivity extends Activity {
 	        case R.id.show_completed:
 	        	showWithCompleted = !item.isChecked();
 				item.setChecked(showWithCompleted);
+				completedSince = showWithCompleted ? new Date(1) : new Date();
 				refreshTaskList();
 	            return true;
 	        default:
